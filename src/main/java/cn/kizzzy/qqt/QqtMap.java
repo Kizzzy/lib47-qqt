@@ -11,17 +11,22 @@ public class QqtMap {
     
     public List<int[][]> layers;
     
-    public int pointCount0;
-    public Point[] points0;
+    public int unknownCount;
+    public Unknown[] unknowns;
     
-    public int pointCount1;
-    public Point[] points1;
+    public Points[] points;
     
-    public int pointCount2;
-    public Point[] points2;
+    public static class Unknown {
+        public int reserved01;
+        public int reserved02;
+        public int reserved03;
+        public int reserved04;
+    }
     
-    public int pointCount3;
-    public Point[] points3;
+    public static class Points {
+        public int count;
+        public Point[] points;
+    }
     
     public static class Point {
         public int x;

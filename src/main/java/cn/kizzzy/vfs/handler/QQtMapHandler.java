@@ -20,11 +20,10 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
         
         map.layers = new LinkedList<>();
         for (int i = 0; i < 3; ++i) {
-            int row = 13;
-            int col = 15;
+            int row = map.height;
+            int col = map.width;
             
             int[][] layerData = new int[row][col];
-            
             for (int r = 0; r < row; ++r) {
                 for (int c = 0; c < col; ++c) {
                     layerData[r][c] = reader.readIntEx();
@@ -33,36 +32,33 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
             
             map.layers.add(layerData);
         }
-        /*
-        map.pointCount0 = reader.readIntEx();
         
-        map.pointCount1 = reader.readIntEx();
-        map.points1 = new QqtMap.Point[map.pointCount1];
-        for (int i = 0; i < map.pointCount1; ++i) {
-            QqtMap.Point point = new QqtMap.Point();
-            point.x = reader.readShortEx();
-            point.y = reader.readShortEx();
+        map.unknownCount = reader.readIntEx();
+        map.unknowns = new QqtMap.Unknown[map.unknownCount];
+        for (int i = 0; i < map.unknownCount; ++i) {
+            QqtMap.Unknown unknown = new QqtMap.Unknown();
+            unknown.reserved01 = reader.readIntEx();
+            unknown.reserved02 = reader.readIntEx();
+            unknown.reserved03 = reader.readIntEx();
+            unknown.reserved04 = reader.readIntEx();
+            map.unknowns[i] = unknown;
+        }
+        
+        map.points = new QqtMap.Points[4];
+        for (int i = 0; i < 4; ++i) {
+            QqtMap.Points points = new QqtMap.Points();
+            points.count = reader.readIntEx();
+            points.points = new QqtMap.Point[points.count];
+            for (int j = 0; j < points.count; ++j) {
+                QqtMap.Point point = new QqtMap.Point();
+                point.x = reader.readShortEx();
+                point.y = reader.readShortEx();
+                points.points[j] = point;
+            }
             
-            map.points1[i] = point;
+            map.points[i] = points;
         }
         
-        map.pointCount2 = reader.readIntEx();
-        map.points2 = new QqtMap.Point[map.pointCount2];
-        for (int i = 0; i < map.pointCount2; ++i) {
-            QqtMap.Point point = new QqtMap.Point();
-            point.x = reader.readShortEx();
-            point.y = reader.readShortEx();
-            map.points2[i] = point;
-        }
-        
-        map.pointCount3 = reader.readIntEx();
-        map.points3 = new QqtMap.Point[map.pointCount3];
-        for (int i = 0; i < map.pointCount3; ++i) {
-            QqtMap.Point point = new QqtMap.Point();
-            point.x = reader.readShortEx();
-            point.y = reader.readShortEx();
-            map.points3[i] = point;
-        }*/
         return map;
     }
     
