@@ -2,6 +2,7 @@ package cn.kizzzy.vfs.pack;
 
 import cn.kizzzy.qqt.QqtFile;
 import cn.kizzzy.qqt.QqtImg;
+import cn.kizzzy.qqt.QqtMap;
 import cn.kizzzy.vfs.IFileLoader;
 import cn.kizzzy.vfs.IFileSaver;
 import cn.kizzzy.vfs.IStrategy;
@@ -9,6 +10,7 @@ import cn.kizzzy.vfs.IStreamable;
 import cn.kizzzy.vfs.ITree;
 import cn.kizzzy.vfs.ListNode;
 import cn.kizzzy.vfs.ListParameter;
+import cn.kizzzy.vfs.handler.QQtMapHandler;
 import cn.kizzzy.vfs.handler.QqtImgHandler;
 import cn.kizzzy.vfs.streamable.FileStreamable;
 import cn.kizzzy.vfs.tree.Leaf;
@@ -35,6 +37,7 @@ public class QqtPackage extends PackageAdapter {
         super.initDefaultHandler();
         
         handlerKvs.put(QqtImg.class, new QqtImgHandler());
+        handlerKvs.put(QqtMap.class, new QQtMapHandler());
     }
     
     @Override
