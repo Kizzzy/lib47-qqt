@@ -3,6 +3,7 @@ package cn.kizzzy.vfs.tree;
 
 import cn.kizzzy.qqt.QqtFile;
 import cn.kizzzy.qqt.QqtIdx;
+import cn.kizzzy.vfs.ITree;
 import cn.kizzzy.vfs.Separator;
 
 public class QqtTreeBuilder extends TreeBuilder<QqtFile> {
@@ -14,12 +15,12 @@ public class QqtTreeBuilder extends TreeBuilder<QqtFile> {
         this.idx = idx;
     }
     
-    public Root<QqtFile> build() {
+    public ITree<QqtFile> build() {
         Root<QqtFile> root = new Root<>(idGenerator.getId(), idx.path);
         for (QqtFile file : idx.fileKvs.values()) {
             listImpl(root, root, file);
         }
-        return root;
+        return new Tree<>(root, separator);
     }
     
     private void listImpl(Root<QqtFile> root, Node<QqtFile> parent, QqtFile item) {

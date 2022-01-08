@@ -3,14 +3,12 @@ package cn.kizzzy.qqt;
 import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.ITree;
-import cn.kizzzy.vfs.Separator;
 import cn.kizzzy.vfs.handler.QqtIdxFileHandler;
 import cn.kizzzy.vfs.handler.QqtImgHandler;
 import cn.kizzzy.vfs.pack.FilePackage;
 import cn.kizzzy.vfs.pack.QqtPackage;
 import cn.kizzzy.vfs.tree.IdGenerator;
 import cn.kizzzy.vfs.tree.Leaf;
-import cn.kizzzy.vfs.tree.LocalTree;
 import cn.kizzzy.vfs.tree.Node;
 import cn.kizzzy.vfs.tree.NodeComparator;
 import cn.kizzzy.vfs.tree.QqtTreeBuilder;
@@ -37,10 +35,8 @@ public class ExportFileFromPkgTest {
             return;
         }
         
-        ITree<QqtFile> tree = new LocalTree<>(
-            new QqtTreeBuilder(idx, new IdGenerator()).build(),
-            Separator.BACKSLASH_SEPARATOR_LOWERCASE
-        );
+        ITree<QqtFile> tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
+        
         IPackage pkgVfs = new QqtPackage(dataRoot, tree);
         
         List<Node<QqtFile>> list = tree.listNode("");

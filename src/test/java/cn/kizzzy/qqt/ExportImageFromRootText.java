@@ -2,14 +2,12 @@ package cn.kizzzy.qqt;
 
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.ITree;
-import cn.kizzzy.vfs.Separator;
 import cn.kizzzy.vfs.handler.BufferedImageHandler;
 import cn.kizzzy.vfs.handler.QqtImgHandler;
 import cn.kizzzy.vfs.pack.FilePackage;
 import cn.kizzzy.vfs.tree.FileTreeBuilder;
 import cn.kizzzy.vfs.tree.IdGenerator;
 import cn.kizzzy.vfs.tree.Leaf;
-import cn.kizzzy.vfs.tree.LocalTree;
 import cn.kizzzy.vfs.tree.Node;
 import cn.kizzzy.vfs.tree.NodeComparator;
 
@@ -30,10 +28,7 @@ public class ExportImageFromRootText {
         IPackage qqtVfs = new FilePackage(qqtRoot);
         qqtVfs.getHandlerKvs().put(QqtImg.class, new QqtImgHandler());
         
-        ITree<Void> tree = new LocalTree<>(
-            new FileTreeBuilder<Void>(qqtRoot, new IdGenerator()).build(),
-            Separator.BACKSLASH_SEPARATOR_LOWERCASE
-        );
+        ITree<Void> tree = new FileTreeBuilder<Void>(qqtRoot, new IdGenerator()).build();
         
         List<Node<Void>> nodes = tree.listNode("");
         for (Node<Void> node : nodes) {

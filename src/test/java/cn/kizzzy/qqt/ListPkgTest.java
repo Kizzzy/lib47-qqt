@@ -3,17 +3,13 @@ package cn.kizzzy.qqt;
 import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.ITree;
-import cn.kizzzy.vfs.Separator;
-import cn.kizzzy.vfs.handler.BufferedImageHandler;
 import cn.kizzzy.vfs.handler.QqtIdxFileHandler;
 import cn.kizzzy.vfs.pack.FilePackage;
 import cn.kizzzy.vfs.tree.IdGenerator;
-import cn.kizzzy.vfs.tree.LocalTree;
 import cn.kizzzy.vfs.tree.Node;
 import cn.kizzzy.vfs.tree.NodeComparator;
 import cn.kizzzy.vfs.tree.QqtTreeBuilder;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class ListPkgTest {
@@ -21,6 +17,13 @@ public class ListPkgTest {
     public static void main(String[] args) {
         String pkgName = "object";
         String dataRoot = "E:\\04Games\\Tencent\\QQ堂\\data";
+        String[] paths = new String[]{
+            "",
+            "object",
+            "body",
+            "object/body",
+            "object/body/body1_stand.img",
+        };
         
         IPackage dataVfs = new FilePackage(dataRoot);
         dataVfs.getHandlerKvs().put(QqtIdx.class, new QqtIdxFileHandler());
@@ -31,18 +34,8 @@ public class ListPkgTest {
             return;
         }
         
-        ITree<QqtFile> tree = new LocalTree<>(
-            new QqtTreeBuilder(idx, new IdGenerator()).build(),
-            Separator.BACKSLASH_SEPARATOR_LOWERCASE
-        );
+        ITree<QqtFile> tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
         
-        String[] paths = new String[]{
-            "",
-            "object",
-            "body",
-            "object/body",
-            "object/body/body1_stand.img",
-        };
         for (String path : paths) {
             listNodeImpl(tree, path);
         }
