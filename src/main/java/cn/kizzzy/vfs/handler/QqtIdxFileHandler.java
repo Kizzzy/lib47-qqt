@@ -1,15 +1,15 @@
 package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.io.DataOutputStreamEx;
-import cn.kizzzy.io.SubStream;
 import cn.kizzzy.qqt.QqtFile;
 import cn.kizzzy.qqt.QqtIdx;
 import cn.kizzzy.vfs.IPackage;
+import cn.kizzzy.io.FullyReader;
 
 public class QqtIdxFileHandler extends StreamFileHandler<QqtIdx> {
     
     @Override
-    protected QqtIdx loadImpl(IPackage vfs, String path, SubStream reader) throws Exception {
+    protected QqtIdx loadImpl(IPackage vfs, String path, FullyReader reader) throws Exception {
         QqtIdx idx = new QqtIdx();
         idx.path = path;
         idx.reserved01 = reader.readIntEx();
@@ -19,6 +19,7 @@ public class QqtIdxFileHandler extends StreamFileHandler<QqtIdx> {
         for (int i = 0; i < idx.totalCount; ++i) {
             QqtFile file = new QqtFile();
             file.pkg = path;
+            
             file.pathLength = reader.readShortEx();
             file.path = reader.readString(file.pathLength).toLowerCase();
             file.reserved01 = reader.readIntEx();

@@ -1,6 +1,7 @@
 package cn.kizzzy.qqt;
 
 import cn.kizzzy.helper.LogHelper;
+import cn.kizzzy.qqt.helper.QqtImgHelper;
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.ITree;
 import cn.kizzzy.vfs.handler.BufferedImageHandler;
@@ -22,7 +23,7 @@ import java.util.List;
 public class ExportImageFromPkgTest {
     
     public static void main(String[] args) throws IOException {
-        String exportRoot = "E:\\88Extrator\\QQT\\Export";
+        String exportRoot = "E:\\88Extrator\\QQT\\Export\\object";
         String dataRoot = "E:\\04Games\\Tencent\\QQ堂\\data";
         
         IPackage exportVfs = new FilePackage(exportRoot);

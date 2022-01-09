@@ -1,11 +1,10 @@
 package cn.kizzzy.qqt;
 
 import cn.kizzzy.helper.ZlibHelper;
-import cn.kizzzy.io.SubStream;
 import cn.kizzzy.vfs.IStreamable;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import cn.kizzzy.io.ByteArrayInputStreamReader;
+import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.SliceFullReader;
 
 public class QqtFile implements IStreamable {
     public int pathLength;
@@ -29,14 +28,14 @@ public class QqtFile implements IStreamable {
     }
     
     @Override
-    public InputStream OpenStream() throws Exception {
+    public FullyReader OpenStream() throws Exception {
         if (getSource() == null) {
             throw new NullPointerException("source is null");
         }
-        SubStream stream = new SubStream(source.OpenStream(), offset, size);
-        byte[] buffer = stream.readBytes(size);
-        ByteArrayInputStream bis = new ByteArrayInputStream(ZlibHelper.uncompress(buffer));
-        return bis;
+        FullyReader reader = new SliceFullReader(source.OpenStream(), offset, size);
+        byte[] buffer = new byte[size];
+        reader.read(buffer);
+        return new SliceFullReader(new ByteArrayInputStreamReader(ZlibHelper.uncompress(buffer)));
     }
     
     @Override

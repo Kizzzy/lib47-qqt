@@ -1,9 +1,6 @@
 package cn.kizzzy.qqt;
 
-import cn.kizzzy.io.SubStream;
 import cn.kizzzy.vfs.IStreamable;
-
-import java.io.InputStream;
 
 public class QqtImg implements IStreamable {
     public int magic01;
@@ -26,15 +23,6 @@ public class QqtImg implements IStreamable {
     
     public void setSource(IStreamable source) {
         this.source = source;
-    }
-    
-    public InputStream OpenStream() throws Exception {
-        if (source == null) {
-            throw new NullPointerException("source is null");
-        }
-        
-        InputStream temp = source.OpenStream();
-        return new SubStream(temp, 0L, temp.available());
     }
     
     @Override

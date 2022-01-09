@@ -1,5 +1,6 @@
 package cn.kizzzy.qqt;
 
+import cn.kizzzy.qqt.helper.QqtImgHelper;
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.ITree;
 import cn.kizzzy.vfs.handler.BufferedImageHandler;

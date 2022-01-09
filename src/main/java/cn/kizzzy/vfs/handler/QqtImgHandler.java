@@ -2,18 +2,17 @@ package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.io.DataOutputStreamEx;
-import cn.kizzzy.io.SubStream;
 import cn.kizzzy.qqt.QqtImg;
 import cn.kizzzy.qqt.QqtImgItem;
 import cn.kizzzy.vfs.IPackage;
+import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.SeekType;
 
 public class QqtImgHandler extends QqtImageFileHandler<QqtImg> {
     
     @Override
-    protected QqtImg loadImpl(IPackage vfs, String path, SubStream reader) throws Exception {
+    protected QqtImg loadImpl(IPackage vfs, String path, FullyReader reader) throws Exception {
         try {
-            long start = reader.getPosition();
-            
             QqtImg img = new QqtImg();
             img.magic01 = reader.readIntEx();
             img.magic02 = reader.readIntEx();
@@ -42,10 +41,12 @@ public class QqtImgHandler extends QqtImageFileHandler<QqtImg> {
                 
                 IReadParam param = readParamKvs.get(item.type);
                 if (param != null) {
-                    item.offset = (int) (reader.getPosition() - start);
+                    item.offset = reader.position();
                     item.size = param.Calc(item.width, item.height);
-                    reader.skip(param.Calc(item.width, item.height));
-                    reader.skip(item.width * item.height);
+                    
+                    reader.seek(item.size, SeekType.CURRENT);
+                    reader.seek(item.width * item.height, SeekType.CURRENT);
+                    
                     img.items[i] = item;
                 }
             }

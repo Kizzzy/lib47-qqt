@@ -1,16 +1,16 @@
 package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.io.DataOutputStreamEx;
-import cn.kizzzy.io.SubStream;
 import cn.kizzzy.qqt.QqtMap;
 import cn.kizzzy.vfs.IPackage;
+import cn.kizzzy.io.FullyReader;
 
 import java.util.LinkedList;
 
 public class QQtMapHandler extends StreamFileHandler<QqtMap> {
     
     @Override
-    protected QqtMap loadImpl(IPackage pack, String path, SubStream reader) throws Exception {
+    protected QqtMap loadImpl(IPackage pack, String path, FullyReader reader) throws Exception {
         QqtMap map = new QqtMap();
         map.version = reader.readIntEx();
         map.reserved01 = reader.readIntEx();
