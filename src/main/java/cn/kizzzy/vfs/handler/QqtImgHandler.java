@@ -18,8 +18,8 @@ public class QqtImgHandler extends QqtImageFileHandler<QqtImg> {
             img.magic02 = reader.readIntEx();
             img.version = reader.readIntEx();
             img.headerSize = reader.readIntEx();
-            img.planes = reader.readIntEx();
             img.count = reader.readIntEx();
+            img.planes = reader.readIntEx();
             img.reserved7 = reader.readIntEx();
             img.reserved8 = reader.readIntEx();
             img.maxWidth = reader.readIntEx();

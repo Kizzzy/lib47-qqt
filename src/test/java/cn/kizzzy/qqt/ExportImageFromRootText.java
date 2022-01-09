@@ -20,7 +20,7 @@ import java.util.List;
 public class ExportImageFromRootText {
     
     public static void main(String[] args) throws IOException {
-        String exportRoot = "E:\\88Extrator\\QQT\\Export";
+        String exportRoot = "E:\\88Extrator\\QQT\\Export\\root";
         String qqtRoot = "E:\\04Games\\Tencent\\QQ堂";
         
         IPackage exportKvs = new FilePackage(exportRoot);
