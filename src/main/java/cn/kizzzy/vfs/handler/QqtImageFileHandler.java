@@ -13,9 +13,8 @@ public abstract class QqtImageFileHandler<T> extends StreamFileHandler<T> {
     }
     
     static {
-        readParamKvs.put(3, new ARGBReadParam(2));
-        readParamKvs.put(8, new ARGBReadParam(4));
-        readParamKvs.put(285212672, new ARGBReadParam(2));
+        readParamKvs.put(0, new ARGBReadParam(2));
+        readParamKvs.put(1, new ARGBReadParam(4));
     }
     
     public static class DxtReadParam implements IReadParam {

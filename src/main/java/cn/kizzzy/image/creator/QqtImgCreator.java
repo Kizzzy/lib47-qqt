@@ -20,8 +20,8 @@ public class QqtImgCreator extends ImageCreatorAdapter<QqtImgItem, BufferedImage
     
     @Override
     protected BufferedImage CreateImpl(QqtImgItem item, Callback<BufferedImage> callback) throws Exception {
-        PixelConverter converter = selector.select(item.type);
-        if (converter != null) {
+        PixelConverter converter = selector.select(item.file.major);
+        if (converter != null && item.valid) {
             try (InputStream is = item.OpenStream();
                  DataInputStreamEx reader = new DataInputStreamEx(is)) {
                 int[] buffer = readPixel(reader, converter, item.width, item.height);

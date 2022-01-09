@@ -8,7 +8,7 @@ public class QqtImgItem implements IStreamable {
     public int reserved01;
     public int reserved02;
     public int reserved03;
-    public int type;
+    public int reserved04;
     public int width;
     public int height;
     public int reserved07;
@@ -38,13 +38,13 @@ public class QqtImgItem implements IStreamable {
     @Override
     public String toString() {
         return "QqtImgItem{" +
-            "reserved11=" + reserved01 +
-            ", reserved12=" + reserved02 +
-            ", reserved13=" + reserved03 +
-            ", type=" + type +
+            "reserved01=" + reserved01 +
+            ", reserved02=" + reserved02 +
+            ", reserved03=" + reserved03 +
+            ", reserved04=" + reserved04 +
             ", width=" + width +
             ", height=" + height +
-            ", reserved17=" + reserved07 +
+            ", reserved07=" + reserved07 +
             '}';
     }
 }

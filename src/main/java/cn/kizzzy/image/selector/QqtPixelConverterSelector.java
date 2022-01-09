@@ -15,9 +15,8 @@ public class QqtPixelConverterSelector extends DefaultPixelConverterSelector {
     
     private static Map<Integer, PixelConverter> initKvs() {
         Map<Integer, PixelConverter> converterKvs = new HashMap<>();
-        converterKvs.put(0x03, new ARGB0565PixelConverter());
-        converterKvs.put(0x08, new ARGB8888PixelConverter());
-        converterKvs.put(285212672, new ARGB0565PixelConverter());
+        converterKvs.put(0x00, new ARGB0565PixelConverter());
+        converterKvs.put(0x01, new ARGB8888PixelConverter());
         return converterKvs;
     }
 }

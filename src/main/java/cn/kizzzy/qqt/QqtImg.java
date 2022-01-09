@@ -5,7 +5,8 @@ import cn.kizzzy.vfs.IStreamable;
 public class QqtImg implements IStreamable {
     public int magic01;
     public int magic02;
-    public int version;
+    public int major;
+    public int minor;
     public int headerSize;
     public int count;
     public int planes;
@@ -30,7 +31,8 @@ public class QqtImg implements IStreamable {
         return "QqtImg{" +
             "magic01=" + magic01 +
             ", magic02=" + magic02 +
-            ", version=" + version +
+            ", major=" + major +
+            ", minor=" + minor +
             ", headerSize=" + headerSize +
             ", count=" + count +
             ", planes=" + planes +

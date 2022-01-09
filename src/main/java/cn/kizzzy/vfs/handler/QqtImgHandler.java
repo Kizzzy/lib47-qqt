@@ -2,11 +2,11 @@ package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.io.DataOutputStreamEx;
+import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.SeekType;
 import cn.kizzzy.qqt.QqtImg;
 import cn.kizzzy.qqt.QqtImgItem;
 import cn.kizzzy.vfs.IPackage;
-import cn.kizzzy.io.FullyReader;
-import cn.kizzzy.io.SeekType;
 
 public class QqtImgHandler extends QqtImageFileHandler<QqtImg> {
     
@@ -16,7 +16,8 @@ public class QqtImgHandler extends QqtImageFileHandler<QqtImg> {
             QqtImg img = new QqtImg();
             img.magic01 = reader.readIntEx();
             img.magic02 = reader.readIntEx();
-            img.version = reader.readIntEx();
+            img.major = reader.readShortEx();
+            img.minor = reader.readShortEx();
             img.headerSize = reader.readIntEx();
             img.count = reader.readIntEx();
             img.planes = reader.readIntEx();
@@ -34,21 +35,28 @@ public class QqtImgHandler extends QqtImageFileHandler<QqtImg> {
                 item.reserved01 = reader.readIntEx();
                 item.reserved02 = reader.readIntEx();
                 item.reserved03 = reader.readIntEx();
-                item.type = reader.readIntEx();
-                item.width = reader.readIntEx();
-                item.height = reader.readIntEx();
-                item.reserved07 = reader.readIntEx();
+                item.reserved04 = reader.readIntEx();
+                if (item.reserved04 != 0) {
+                    item.width = reader.readIntEx();
+                    item.height = reader.readIntEx();
+                    item.reserved07 = reader.readIntEx();
+                }
                 
-                IReadParam param = readParamKvs.get(item.type);
-                if (param != null) {
+                item.valid = checkValid(item.width, item.height);
+                
+                IReadParam param = readParamKvs.get(img.major);
+                if (param != null && item.valid) {
                     item.offset = reader.position();
                     item.size = param.Calc(item.width, item.height);
                     
                     reader.seek(item.size, SeekType.CURRENT);
-                    reader.seek(item.width * item.height, SeekType.CURRENT);
                     
-                    img.items[i] = item;
+                    if (img.major == 0) {
+                        reader.seek((long) item.width * item.height, SeekType.CURRENT);
+                    }
                 }
+                
+                img.items[i] = item;
             }
             
             return img;
