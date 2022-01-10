@@ -13,8 +13,8 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
     protected QqtMap loadImpl(IPackage pack, String path, FullyReader reader) throws Exception {
         QqtMap map = new QqtMap();
         map.version = reader.readIntEx();
-        map.reserved01 = reader.readIntEx();
-        map.reserved02 = reader.readIntEx();
+        map.gameMode = reader.readIntEx();
+        map.maxPlayer = reader.readIntEx();
         map.width = map.version == 4 ? reader.readIntEx() : 15;
         map.height = map.version == 4 ? reader.readIntEx() : 13;
         

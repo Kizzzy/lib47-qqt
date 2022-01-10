@@ -21,8 +21,8 @@ public class QqtImgHandler extends QqtImageFileHandler<QqtImg> {
             img.headerSize = reader.readIntEx();
             img.count = reader.readIntEx();
             img.planes = reader.readIntEx();
-            img.reserved7 = reader.readIntEx();
-            img.reserved8 = reader.readIntEx();
+            img.offsetX = reader.readIntEx();
+            img.offsetY = reader.readIntEx();
             img.maxWidth = reader.readIntEx();
             img.maxHeight = reader.readIntEx();
             
@@ -33,8 +33,8 @@ public class QqtImgHandler extends QqtImageFileHandler<QqtImg> {
                 item.file = img;
                 
                 item.reserved01 = reader.readIntEx();
-                item.reserved02 = reader.readIntEx();
-                item.reserved03 = reader.readIntEx();
+                item.offsetX = reader.readIntEx();
+                item.offsetY = reader.readIntEx();
                 item.reserved04 = reader.readIntEx();
                 if (item.reserved04 != 0) {
                     item.width = reader.readIntEx();
@@ -52,7 +52,10 @@ public class QqtImgHandler extends QqtImageFileHandler<QqtImg> {
                     reader.seek(item.size, SeekType.CURRENT);
                     
                     if (img.major == 0) {
-                        reader.seek((long) item.width * item.height, SeekType.CURRENT);
+                        item.offset_alpha = reader.position();
+                        item.size_alpha = item.width * item.height;
+                        
+                        reader.seek(item.size_alpha, SeekType.CURRENT);
                     }
                 }
                 

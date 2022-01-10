@@ -4,8 +4,8 @@ import java.util.List;
 
 public class QqtMap {
     public int version;
-    public int reserved01;
-    public int reserved02;
+    public int gameMode;
+    public int maxPlayer;
     public int width;
     public int height;
     

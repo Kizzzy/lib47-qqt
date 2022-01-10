@@ -10,8 +10,8 @@ public class QqtImg implements IStreamable {
     public int headerSize;
     public int count;
     public int planes;
-    public int reserved7;
-    public int reserved8;
+    public int offsetX;
+    public int offsetY;
     public int maxWidth;
     public int maxHeight;
     public QqtImgItem[] items;
@@ -36,8 +36,8 @@ public class QqtImg implements IStreamable {
             ", headerSize=" + headerSize +
             ", count=" + count +
             ", planes=" + planes +
-            ", reserved7=" + reserved7 +
-            ", reserved8=" + reserved8 +
+            ", offsetX=" + offsetX +
+            ", offsetY=" + offsetY +
             ", maxWidth=" + maxWidth +
             ", maxHeight=" + maxHeight +
             '}';

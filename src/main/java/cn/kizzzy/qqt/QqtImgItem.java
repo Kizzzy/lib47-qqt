@@ -1,13 +1,13 @@
 package cn.kizzzy.qqt;
 
-import cn.kizzzy.vfs.IStreamable;
 import cn.kizzzy.io.FullyReader;
 import cn.kizzzy.io.SliceFullReader;
+import cn.kizzzy.vfs.IStreamable;
 
 public class QqtImgItem implements IStreamable {
     public int reserved01;
-    public int reserved02;
-    public int reserved03;
+    public int offsetX;
+    public int offsetY;
     public int reserved04;
     public int width;
     public int height;
@@ -19,6 +19,9 @@ public class QqtImgItem implements IStreamable {
     
     public long offset;
     public int size;
+    
+    public long offset_alpha;
+    public int size_alpha;
     
     public IStreamable getSource() {
         return file;
@@ -35,12 +38,19 @@ public class QqtImgItem implements IStreamable {
         return new SliceFullReader(getSource().OpenStream(), offset, size);
     }
     
+    public FullyReader OpenStream_Alpha() throws Exception {
+        if (this.getSource() == null) {
+            throw new NullPointerException("source is null");
+        }
+        return new SliceFullReader(getSource().OpenStream(), offset_alpha, size_alpha);
+    }
+    
     @Override
     public String toString() {
         return "QqtImgItem{" +
             "reserved01=" + reserved01 +
-            ", reserved02=" + reserved02 +
-            ", reserved03=" + reserved03 +
+            ", offsetX=" + offsetX +
+            ", offsetY=" + offsetY +
             ", reserved04=" + reserved04 +
             ", width=" + width +
             ", height=" + height +
