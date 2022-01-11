@@ -34,8 +34,8 @@ public class QqtTreeBuilder extends TreeBuilder<QqtFile> {
                     child = leaf;
                 } else {
                     child = new Node<>(idGenerator.getId(), name);
-                    root.folderKvs.put(child.id, child);
                 }
+                root.folderKvs.put(child.id, child);
                 parent.children.put(name, child);
             }
             parent = child;
