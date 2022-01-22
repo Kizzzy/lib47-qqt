@@ -29,17 +29,17 @@ public class ExportImageFromRootText {
         IPackage qqtVfs = new FilePackage(qqtRoot);
         qqtVfs.getHandlerKvs().put(QqtImg.class, new QqtImgHandler());
         
-        ITree<Void> tree = new FileTreeBuilder<Void>(qqtRoot, new IdGenerator()).build();
+        ITree tree = new FileTreeBuilder(qqtRoot, new IdGenerator()).build();
         
-        List<Node<Void>> nodes = tree.listNode("");
-        for (Node<Void> node : nodes) {
+        List<Node> nodes = tree.listNode("");
+        for (Node node : nodes) {
             listNodeImpl(node, qqtVfs, exportKvs);
         }
     }
     
-    private static void listNodeImpl(Node<Void> node, IPackage qqtVfs, IPackage exportVfs) {
+    private static void listNodeImpl(Node node, IPackage qqtVfs, IPackage exportVfs) {
         if (node.leaf) {
-            Leaf<Void> leaf = (Leaf<Void>) node;
+            Leaf leaf = (Leaf) node;
             if (leaf.path.endsWith(".img")) {
                 System.out.println("export: " + leaf.path);
                 
@@ -57,10 +57,10 @@ public class ExportImageFromRootText {
                 }
             }
         } else {
-            List<Node<Void>> list = new LinkedList<>(node.children.values());
-            list.sort(new NodeComparator<>());
+            List<Node> list = new LinkedList<>(node.children.values());
+            list.sort(new NodeComparator());
             
-            for (Node<Void> child : list) {
+            for (Node child : list) {
                 listNodeImpl(child, qqtVfs, exportVfs);
             }
         }

@@ -21,21 +21,21 @@ public class ExportZipTest {
         
         IPackage exportVfs = new FilePackage(exportRoot);
         
-        ITree<Void> fileTree = new FileTreeBuilder<Void>(zipRoot).build();
-        List<Leaf<Void>> nodes = fileTree.listLeaf(0);
+        ITree fileTree = new FileTreeBuilder(zipRoot).build();
+        List<Leaf> nodes = fileTree.listLeaf(0);
         
-        for (Leaf<Void> leaf : nodes) {
+        for (Leaf leaf : nodes) {
             if (leaf.name.contains(".zip")) {
-                ITree<Void> zipTree = new ZipTreeBuilder<Void>(zipRoot + "\\" + leaf.name).build();
+                ITree zipTree = new ZipTreeBuilder(zipRoot + "\\" + leaf.name).build();
                 if (zipTree == null) {
                     continue;
                 }
                 
-                Leaf<Void> fileInfoLeaf = null;
-                Map<String, Leaf<Void>> leafKvs = new HashMap<>();
+                Leaf fileInfoLeaf = null;
+                Map<String, Leaf> leafKvs = new HashMap<>();
                 
-                List<Leaf<Void>> leaves = zipTree.listLeaf(0, true);
-                for (Leaf<Void> temp : leaves) {
+                List<Leaf> leaves = zipTree.listLeaf(0, true);
+                for (Leaf temp : leaves) {
                     leafKvs.put(temp.name.toLowerCase(), temp);     // use lowercase
                     
                     if (temp.name.contains(".ini")) {
@@ -65,7 +65,7 @@ public class ExportZipTest {
                                     String src = kvs.get("src" + (i + 1));
                                     String dst = kvs.get("dst" + (i + 1));
                                     
-                                    Leaf<Void> target = leafKvs.get(src.toLowerCase());     // use lowercase
+                                    Leaf target = leafKvs.get(src.toLowerCase());     // use lowercase
                                     if (target == null) {
                                         LogHelper.info(leaf.name + " - " + src);
                                         continue;

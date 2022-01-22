@@ -34,18 +34,18 @@ public class ListPkgTest {
             return;
         }
         
-        ITree<QqtFile> tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
+        ITree tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
         
         for (String path : paths) {
             listNodeImpl(tree, path);
         }
     }
     
-    private static void listNodeImpl(ITree<QqtFile> tree, String path) {
-        List<Node<QqtFile>> list = tree.listNode(path);
-        list.sort(new NodeComparator<>());
+    private static void listNodeImpl(ITree tree, String path) {
+        List<Node> list = tree.listNode(path);
+        list.sort(new NodeComparator());
         System.out.printf("path: %-32s, node count: %4d, list:", path, list.size());
-        for (Node<QqtFile> item : list) {
+        for (Node item : list) {
             System.out.print(" " + item.name);
         }
         System.out.println();

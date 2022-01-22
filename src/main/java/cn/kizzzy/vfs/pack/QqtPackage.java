@@ -13,13 +13,10 @@ import cn.kizzzy.vfs.handler.QqtImgHandler;
 import cn.kizzzy.vfs.streamable.FileStreamable;
 import cn.kizzzy.vfs.tree.Leaf;
 
-public class QqtPackage extends PackageAdapter {
+public class QqtPackage extends AbstractPackage {
     
-    private final ITree<QqtFile> tree;
-    
-    public QqtPackage(String root, ITree<QqtFile> tree) {
-        super(root);
-        this.tree = tree;
+    public QqtPackage(String root, ITree tree) {
+        super(root, tree);
     }
     
     @Override
@@ -37,15 +34,12 @@ public class QqtPackage extends PackageAdapter {
     
     @Override
     protected Object loadImpl(String path, IFileLoader<?> loader) throws Exception {
-        Leaf<QqtFile> leaf = tree.getLeaf(path);
-        if (leaf == null) {
+        Leaf leaf = tree.getLeaf(path);
+        if (leaf == null || !(leaf.item instanceof QqtFile)) {
             return null;
         }
         
-        QqtFile file = leaf.item;
-        if (file == null) {
-            return null;
-        }
+        QqtFile file = (QqtFile) leaf.item;
         
         String fullPath = FILE_SEPARATOR.combine(root, file.pkg.replace("idx", "pkg"));
         if (file.getSource() == null) {

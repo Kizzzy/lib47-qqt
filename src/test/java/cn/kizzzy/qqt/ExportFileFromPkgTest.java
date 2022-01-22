@@ -35,28 +35,28 @@ public class ExportFileFromPkgTest {
             return;
         }
         
-        ITree<QqtFile> tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
+        ITree tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
         
         IPackage pkgVfs = new QqtPackage(dataRoot, tree);
         
-        List<Node<QqtFile>> list = tree.listNode("");
-        for (Node<QqtFile> node : list) {
+        List<Node> list = tree.listNode("");
+        for (Node node : list) {
             listNodeImpl(node, pkgVfs, tempVfs);
         }
     }
     
-    private static void listNodeImpl(Node<QqtFile> item, IPackage pkgVfs, IPackage tempVfs) {
+    private static void listNodeImpl(Node item, IPackage pkgVfs, IPackage tempVfs) {
         if (item.leaf) {
-            Leaf<QqtFile> leaf = (Leaf<QqtFile>) item;
+            Leaf leaf = (Leaf) item;
             System.out.println("export: " + leaf.path);
             
             byte[] data = pkgVfs.load(leaf.path, byte[].class);
             tempVfs.save(leaf.path, data);
         } else {
-            List<Node<QqtFile>> list = new LinkedList<>(item.children.values());
-            list.sort(new NodeComparator<>());
+            List<Node> list = new LinkedList<>(item.children.values());
+            list.sort(new NodeComparator());
             
-            for (Node<QqtFile> child : list) {
+            for (Node child : list) {
                 listNodeImpl(child, pkgVfs, tempVfs);
             }
         }

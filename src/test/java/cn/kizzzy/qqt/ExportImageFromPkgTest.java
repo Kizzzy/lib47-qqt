@@ -39,19 +39,19 @@ public class ExportImageFromPkgTest {
             return;
         }
         
-        ITree<QqtFile> tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
+        ITree tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
         
         IPackage pkgVfs = new QqtPackage(dataRoot, tree);
         
-        List<Node<QqtFile>> nodes = tree.listNode("");
-        for (Node<QqtFile> node : nodes) {
+        List<Node> nodes = tree.listNode("");
+        for (Node node : nodes) {
             listNodeImpl(node, pkgVfs, exportVfs);
         }
     }
     
-    private static void listNodeImpl(Node<QqtFile> node, IPackage pkgVfs, IPackage exportVfs) {
+    private static void listNodeImpl(Node node, IPackage pkgVfs, IPackage exportVfs) {
         if (node.leaf) {
-            Leaf<QqtFile> leaf = (Leaf<QqtFile>) node;
+            Leaf leaf = (Leaf) node;
             if (leaf.path.contains(".img")) {
                 System.out.println("export: " + leaf.path);
                 
@@ -69,10 +69,10 @@ public class ExportImageFromPkgTest {
                 }
             }
         } else {
-            List<Node<QqtFile>> list = new LinkedList<>(node.children.values());
-            list.sort(new NodeComparator<>());
+            List<Node> list = new LinkedList<>(node.children.values());
+            list.sort(new NodeComparator());
             
-            for (Node<QqtFile> child : list) {
+            for (Node child : list) {
                 listNodeImpl(child, pkgVfs, exportVfs);
             }
         }
