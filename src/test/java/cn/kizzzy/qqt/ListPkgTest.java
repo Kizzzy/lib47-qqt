@@ -1,14 +1,15 @@
 package cn.kizzzy.qqt;
 
 import cn.kizzzy.helper.LogHelper;
+import cn.kizzzy.tencent.IdxFile;
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.ITree;
-import cn.kizzzy.vfs.handler.QqtIdxFileHandler;
+import cn.kizzzy.vfs.handler.IdxFileHandler;
 import cn.kizzzy.vfs.pack.FilePackage;
 import cn.kizzzy.vfs.tree.IdGenerator;
+import cn.kizzzy.vfs.tree.IdxTreeBuilder;
 import cn.kizzzy.vfs.tree.Node;
 import cn.kizzzy.vfs.tree.NodeComparator;
-import cn.kizzzy.vfs.tree.QqtTreeBuilder;
 
 import java.util.List;
 
@@ -26,15 +27,15 @@ public class ListPkgTest {
         };
         
         IPackage dataVfs = new FilePackage(dataRoot);
-        dataVfs.getHandlerKvs().put(QqtIdx.class, new QqtIdxFileHandler());
+        dataVfs.getHandlerKvs().put(IdxFile.class, new IdxFileHandler());
         
-        QqtIdx idx = dataVfs.load(pkgName + ".idx", QqtIdx.class);
+        IdxFile idx = dataVfs.load(pkgName + ".idx", IdxFile.class);
         if (idx == null) {
             LogHelper.error("load idx failed: {}", pkgName);
             return;
         }
         
-        ITree tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
+        ITree tree = new IdxTreeBuilder(idx, new IdGenerator()).build();
         
         for (String path : paths) {
             listNodeImpl(tree, path);

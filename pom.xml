@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>cn.kizzzy</groupId>
-            <artifactId>lib47-vfs</artifactId>
+            <artifactId>lib47-tencent</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

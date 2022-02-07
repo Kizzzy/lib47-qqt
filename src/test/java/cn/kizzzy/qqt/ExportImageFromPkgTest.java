@@ -2,18 +2,19 @@ package cn.kizzzy.qqt;
 
 import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.qqt.helper.QqtImgHelper;
+import cn.kizzzy.tencent.IdxFile;
 import cn.kizzzy.vfs.IPackage;
 import cn.kizzzy.vfs.ITree;
 import cn.kizzzy.vfs.handler.BufferedImageHandler;
-import cn.kizzzy.vfs.handler.QqtIdxFileHandler;
+import cn.kizzzy.vfs.handler.IdxFileHandler;
 import cn.kizzzy.vfs.handler.QqtImgHandler;
 import cn.kizzzy.vfs.pack.FilePackage;
 import cn.kizzzy.vfs.pack.QqtPackage;
 import cn.kizzzy.vfs.tree.IdGenerator;
+import cn.kizzzy.vfs.tree.IdxTreeBuilder;
 import cn.kizzzy.vfs.tree.Leaf;
 import cn.kizzzy.vfs.tree.Node;
 import cn.kizzzy.vfs.tree.NodeComparator;
-import cn.kizzzy.vfs.tree.QqtTreeBuilder;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -31,15 +32,15 @@ public class ExportImageFromPkgTest {
         
         IPackage dataVfs = new FilePackage(dataRoot);
         dataVfs.getHandlerKvs().put(QqtImg.class, new QqtImgHandler());
-        dataVfs.getHandlerKvs().put(QqtIdx.class, new QqtIdxFileHandler());
+        dataVfs.getHandlerKvs().put(IdxFile.class, new IdxFileHandler());
         
-        QqtIdx idx = dataVfs.load("object.idx", QqtIdx.class);
+        IdxFile idx = dataVfs.load("object.idx", IdxFile.class);
         if (idx == null) {
             LogHelper.error("load idx failed");
             return;
         }
         
-        ITree tree = new QqtTreeBuilder(idx, new IdGenerator()).build();
+        ITree tree = new IdxTreeBuilder(idx, new IdGenerator()).build();
         
         IPackage pkgVfs = new QqtPackage(dataRoot, tree);
         
