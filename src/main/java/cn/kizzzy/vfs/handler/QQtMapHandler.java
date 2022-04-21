@@ -1,11 +1,9 @@
 package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.io.DataOutputStreamEx;
+import cn.kizzzy.io.FullyReader;
 import cn.kizzzy.qqt.QqtMap;
 import cn.kizzzy.vfs.IPackage;
-import cn.kizzzy.io.FullyReader;
-
-import java.util.LinkedList;
 
 public class QQtMapHandler extends StreamFileHandler<QqtMap> {
     
@@ -18,41 +16,44 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
         map.width = map.version == 4 ? reader.readIntEx() : 15;
         map.height = map.version == 4 ? reader.readIntEx() : 13;
         
-        map.layers = new LinkedList<>();
-        for (int i = 0; i < 3; ++i) {
-            int row = map.height;
-            int col = map.width;
-            
-            int[][] layerData = new int[row][col];
-            for (int r = 0; r < row; ++r) {
-                for (int c = 0; c < col; ++c) {
-                    layerData[r][c] = reader.readIntEx();
+        map.layers = new QqtMap.Layer[3];
+        for (int i = 0, n = map.layers.length; i < n; ++i) {
+            QqtMap.Layer layer = new QqtMap.Layer();
+            layer.elements = new QqtMap.Element[map.height][map.width];
+            for (int r = 0, row = map.height; r < row; ++r) {
+                for (int c = 0, col = map.width; c < col; ++c) {
+                    int value = reader.readIntEx();
+                    
+                    QqtMap.Element element = new QqtMap.Element();
+                    element.city = value / 1000;
+                    element.id = value % 1000;
+                    
+                    layer.elements[r][c] = element;
                 }
             }
-            
-            map.layers.add(layerData);
+            map.layers[i] = layer;
         }
         
-        map.unknownCount = reader.readIntEx();
-        map.unknowns = new QqtMap.Unknown[map.unknownCount];
-        for (int i = 0; i < map.unknownCount; ++i) {
-            QqtMap.Unknown unknown = new QqtMap.Unknown();
-            unknown.reserved01 = reader.readIntEx();
-            unknown.reserved02 = reader.readIntEx();
-            unknown.reserved03 = reader.readIntEx();
-            unknown.reserved04 = reader.readIntEx();
-            map.unknowns[i] = unknown;
+        map.drops = new QqtMap.Drop[reader.readIntEx()];
+        for (int i = 0, n = map.drops.length; i < n; ++i) {
+            QqtMap.Drop drop = new QqtMap.Drop();
+            drop.id = reader.readIntEx();
+            drop.x = reader.readIntEx();
+            drop.y = reader.readIntEx();
+            drop.rate = reader.readFloatEx();
+            
+            map.drops[i] = drop;
         }
         
         map.points = new QqtMap.Points[4];
         for (int i = 0; i < 4; ++i) {
             QqtMap.Points points = new QqtMap.Points();
-            points.count = reader.readIntEx();
-            points.points = new QqtMap.Point[points.count];
-            for (int j = 0; j < points.count; ++j) {
+            points.points = new QqtMap.Point[reader.readIntEx()];
+            for (int j = 0, n = points.points.length; j < n; ++j) {
                 QqtMap.Point point = new QqtMap.Point();
                 point.x = reader.readShortEx();
                 point.y = reader.readShortEx();
+                
                 points.points[j] = point;
             }
             
@@ -63,7 +64,39 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
     }
     
     @Override
-    protected void saveImpl(DataOutputStreamEx writer, QqtMap data) throws Exception {
-        throw new UnsupportedOperationException("not support");
+    protected void saveImpl(DataOutputStreamEx writer, QqtMap map) throws Exception {
+        writer.writeIntEx(map.version);
+        writer.writeIntEx(map.gameMode);
+        writer.writeIntEx(map.maxPlayer);
+        if (map.version == 4) {
+            writer.writeIntEx(map.width);
+            writer.writeIntEx(map.height);
+        }
+        
+        for (QqtMap.Layer layer : map.layers) {
+            for (int r = 0, row = map.height; r < row; ++r) {
+                for (int c = 0, col = map.width; c < col; ++c) {
+                    QqtMap.Element element = layer.elements[r][c];
+                    int value = element.city * 1000 + element.id;
+                    writer.writeIntEx(value);
+                }
+            }
+        }
+        
+        writer.writeIntEx(map.drops.length);
+        for (QqtMap.Drop drop : map.drops) {
+            writer.writeIntEx(drop.id);
+            writer.writeIntEx(drop.x);
+            writer.writeIntEx(drop.y);
+            writer.writeFloat(drop.rate);
+        }
+        
+        for (QqtMap.Points points : map.points) {
+            writer.writeIntEx(points.points.length);
+            for (QqtMap.Point point : points.points) {
+                writer.writeShort(point.x);
+                writer.writeShort(point.y);
+            }
+        }
     }
 }

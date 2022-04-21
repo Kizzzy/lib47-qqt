@@ -11,8 +11,8 @@ public class QqtSizerHelper {
     
     static {
         sizerKvs = new HashMap<>();
-        sizerKvs.put(0, new ARGB0565Sizer());
-        sizerKvs.put(1, new ARGB8888Sizer());
+        sizerKvs.put(0, new ARGBSizer(2));
+        sizerKvs.put(1, new ARGBSizer(4));
     }
     
     public static int calc(int type, int width, int height) {
