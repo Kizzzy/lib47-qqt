@@ -2,17 +2,18 @@ package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.image.sizer.QqtSizerHelper;
-import cn.kizzzy.io.DataOutputStreamEx;
 import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.FullyWriter;
 import cn.kizzzy.io.SeekType;
 import cn.kizzzy.qqt.QqtImg;
 import cn.kizzzy.qqt.QqtImgItem;
+import cn.kizzzy.vfs.IFileHandler;
 import cn.kizzzy.vfs.IPackage;
 
-public class QqtImgHandler extends StreamFileHandler<QqtImg> {
+public class QqtImgHandler implements IFileHandler<QqtImg> {
     
     @Override
-    protected QqtImg loadImpl(IPackage vfs, String path, FullyReader reader) throws Exception {
+    public QqtImg load(IPackage vfs, String path, FullyReader reader, long size) throws Exception {
         try {
             QqtImg img = new QqtImg();
             img.magic01 = reader.readIntEx();
@@ -69,7 +70,37 @@ public class QqtImgHandler extends StreamFileHandler<QqtImg> {
     }
     
     @Override
-    protected void saveImpl(DataOutputStreamEx writer, QqtImg img) throws Exception {
-        throw new UnsupportedOperationException("not support");
+    public boolean save(IPackage vfs, String path, FullyWriter writer, QqtImg img) throws Exception {
+        writer.writeIntEx(img.magic01);
+        writer.writeIntEx(img.magic02);
+        writer.writeShortEx(img.major);
+        writer.writeShortEx(img.minor);
+        writer.writeIntEx(img.headerSize);
+        writer.writeIntEx(img.count);
+        writer.writeIntEx(img.planes);
+        writer.writeIntEx(img.offsetX);
+        writer.writeIntEx(img.offsetY);
+        writer.writeIntEx(img.maxWidth);
+        writer.writeIntEx(img.maxHeight);
+        
+        for (QqtImgItem item : img.items) {
+            writer.writeIntEx(item.reserved01);
+            writer.writeIntEx(item.offsetX);
+            writer.writeIntEx(item.offsetY);
+            writer.writeIntEx(item.reserved04);
+            if (item.reserved04 != 0) {
+                writer.writeIntEx(item.width);
+                writer.writeIntEx(item.height);
+                writer.writeIntEx(item.reserved07);
+            }
+            
+            // todo write image data
+            
+            if (img.major == 0) {
+                // todo write image alpha data
+            }
+        }
+        
+        return true;
     }
 }

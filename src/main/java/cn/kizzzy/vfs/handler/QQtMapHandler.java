@@ -1,14 +1,15 @@
 package cn.kizzzy.vfs.handler;
 
-import cn.kizzzy.io.DataOutputStreamEx;
 import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.FullyWriter;
 import cn.kizzzy.qqt.QqtMap;
+import cn.kizzzy.vfs.IFileHandler;
 import cn.kizzzy.vfs.IPackage;
 
-public class QQtMapHandler extends StreamFileHandler<QqtMap> {
+public class QQtMapHandler implements IFileHandler<QqtMap> {
     
     @Override
-    protected QqtMap loadImpl(IPackage pack, String path, FullyReader reader) throws Exception {
+    public QqtMap load(IPackage vfs, String path, FullyReader reader, long size) throws Exception {
         QqtMap map = new QqtMap();
         map.version = reader.readIntEx();
         map.gameMode = reader.readIntEx();
@@ -35,8 +36,8 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
         for (int i = 0, n = map.drops.length; i < n; ++i) {
             QqtMap.Drop drop = new QqtMap.Drop();
             drop.id = reader.readIntEx();
-            drop.x = reader.readIntEx();
-            drop.y = reader.readIntEx();
+            drop.min = reader.readIntEx();
+            drop.max = reader.readIntEx();
             drop.rate = reader.readFloatEx();
             
             map.drops[i] = drop;
@@ -61,7 +62,7 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
     }
     
     @Override
-    protected void saveImpl(DataOutputStreamEx writer, QqtMap map) throws Exception {
+    public boolean save(IPackage vfs, String path, FullyWriter writer, QqtMap map) throws Exception {
         writer.writeIntEx(map.version);
         writer.writeIntEx(map.gameMode);
         writer.writeIntEx(map.maxPlayer);
@@ -82,9 +83,9 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
         writer.writeIntEx(map.drops.length);
         for (QqtMap.Drop drop : map.drops) {
             writer.writeIntEx(drop.id);
-            writer.writeIntEx(drop.x);
-            writer.writeIntEx(drop.y);
-            writer.writeFloat(drop.rate);
+            writer.writeIntEx(drop.min);
+            writer.writeIntEx(drop.max);
+            writer.writeFloatEx(drop.rate);
         }
         
         for (QqtMap.Points points : map.points) {
@@ -94,5 +95,7 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
                 writer.writeShort(point.y);
             }
         }
+        
+        return true;
     }
 }

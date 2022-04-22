@@ -77,8 +77,8 @@ public class QqtMap {
     // 道具类型及其掉落概率
     public static class Drop {
         public int id;
-        public int x;
-        public int y;
+        public int min;
+        public int max;
         public float rate;
     }
     

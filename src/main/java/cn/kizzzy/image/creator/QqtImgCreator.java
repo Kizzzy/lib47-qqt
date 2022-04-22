@@ -3,12 +3,10 @@ package cn.kizzzy.image.creator;
 import cn.kizzzy.image.PixelConverter;
 import cn.kizzzy.image.PixelConverterSelector;
 import cn.kizzzy.image.selector.QqtPixelConverterSelector;
-import cn.kizzzy.io.DataInputStreamEx;
 import cn.kizzzy.io.FullyReader;
 import cn.kizzzy.qqt.QqtImgItem;
 
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 
 public class QqtImgCreator extends ImageCreatorAdapter<QqtImgItem, BufferedImage> {
     
@@ -23,8 +21,7 @@ public class QqtImgCreator extends ImageCreatorAdapter<QqtImgItem, BufferedImage
     protected BufferedImage CreateImpl(QqtImgItem item, Callback<BufferedImage> callback) throws Exception {
         PixelConverter converter = selector.select(item.file.major);
         if (converter != null && item.valid) {
-            try (InputStream is = item.OpenStream();
-                 DataInputStreamEx reader = new DataInputStreamEx(is)) {
+            try (FullyReader reader = item.OpenStream()) {
                 int[] buffer = readPixel(reader, converter, item.width, item.height);
                 if (item.file.major == 0) {
                     try (FullyReader alpha_reader = item.OpenStream_Alpha()) {
