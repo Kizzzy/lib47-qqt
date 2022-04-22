@@ -1,8 +1,10 @@
 package cn.kizzzy.vfs.pack;
 
+import cn.kizzzy.qqt.MapElemProp;
 import cn.kizzzy.qqt.QqtImg;
 import cn.kizzzy.qqt.QqtMap;
 import cn.kizzzy.vfs.ITree;
+import cn.kizzzy.vfs.handler.MapElemPropHandler;
 import cn.kizzzy.vfs.handler.QQtMapHandler;
 import cn.kizzzy.vfs.handler.QqtImgHandler;
 
@@ -18,6 +20,7 @@ public class QqtPackage extends IdxPackage {
         
         handlerKvs.put(QqtImg.class, new QqtImgHandler());
         handlerKvs.put(QqtMap.class, new QQtMapHandler());
+        handlerKvs.put(MapElemProp.class, new MapElemPropHandler());
     }
     
     @Override

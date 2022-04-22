@@ -43,9 +43,9 @@ public class QqtMap {
     
     /**
      * <p>1、可以被炸毁的元素的点，也就是允许的道具生成点。</p>
-     * <p>2、在竞技的标准模式（两组）下，两个队伍的玩家出生点。</p>
-     * <p>3、特殊模式下，标识属于双方队伍各自的特殊地图元素，例如包子铺、雕塑塔、机械大炮、糖客战基地等。</p>
-     * <p>4、???</p>
+     * <p>2、在竞技的标准模式下，第1个队伍的玩家出生点。</p>
+     * <p>3、在竞技的标准模式下，第2个队伍的玩家出生点。</p>
+     * <p>4、特殊模式下，标识属于双方队伍各自的特殊地图元素，例如包子铺、雕塑塔、机械大炮、糖客战基地等。</p>
      */
     public Points[] points;
     
@@ -54,8 +54,24 @@ public class QqtMap {
     }
     
     public static class Element {
-        public int city;
-        public int id;
+        
+        public int value;
+        
+        public Element() {
+            this(0);
+        }
+        
+        public Element(int value) {
+            this.value = value;
+        }
+        
+        public int city() {
+            return value / 1000;
+        }
+        
+        public int id() {
+            return value % 1000;
+        }
     }
     
     // 道具类型及其掉落概率

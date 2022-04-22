@@ -22,11 +22,8 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
             layer.elements = new QqtMap.Element[map.height][map.width];
             for (int r = 0, row = map.height; r < row; ++r) {
                 for (int c = 0, col = map.width; c < col; ++c) {
-                    int value = reader.readIntEx();
-                    
                     QqtMap.Element element = new QqtMap.Element();
-                    element.city = value / 1000;
-                    element.id = value % 1000;
+                    element.value = reader.readIntEx();
                     
                     layer.elements[r][c] = element;
                 }
@@ -51,8 +48,8 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
             points.points = new QqtMap.Point[reader.readIntEx()];
             for (int j = 0, n = points.points.length; j < n; ++j) {
                 QqtMap.Point point = new QqtMap.Point();
-                point.x = reader.readShortEx();
                 point.y = reader.readShortEx();
+                point.x = reader.readShortEx();
                 
                 points.points[j] = point;
             }
@@ -77,8 +74,7 @@ public class QQtMapHandler extends StreamFileHandler<QqtMap> {
             for (int r = 0, row = map.height; r < row; ++r) {
                 for (int c = 0, col = map.width; c < col; ++c) {
                     QqtMap.Element element = layer.elements[r][c];
-                    int value = element.city * 1000 + element.id;
-                    writer.writeIntEx(value);
+                    writer.writeIntEx(element.value);
                 }
             }
         }
