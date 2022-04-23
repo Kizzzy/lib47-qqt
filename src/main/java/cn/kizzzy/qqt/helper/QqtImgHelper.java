@@ -15,4 +15,15 @@ public class QqtImgHelper {
     public static BufferedImage toImage(QqtImgItem item) {
         return creator_1.Create(item, new BufferedImageCallback());
     }
+    
+    public static BufferedImage toImageFix(QqtImgItem item) {
+        int maxWidth = item.file.maxWidth;
+        int maxHeight = item.file.maxHeight;
+        int offsetX = item.offsetX;
+        int offsetY = item.offsetY;
+        
+        BufferedImage image = new BufferedImage(maxWidth, maxHeight, BufferedImage.TYPE_INT_ARGB);
+        image.getGraphics().drawImage(toImage(item), offsetX, offsetY, null);
+        return image;
+    }
 }
