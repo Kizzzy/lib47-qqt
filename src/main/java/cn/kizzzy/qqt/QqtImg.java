@@ -25,21 +25,4 @@ public class QqtImg implements IStreamable {
     public void setSource(IStreamable source) {
         this.source = source;
     }
-    
-    @Override
-    public String toString() {
-        return "QqtImg{" +
-            "magic01=" + magic01 +
-            ", magic02=" + magic02 +
-            ", major=" + major +
-            ", minor=" + minor +
-            ", headerSize=" + headerSize +
-            ", count=" + count +
-            ", planes=" + planes +
-            ", offsetX=" + offsetX +
-            ", offsetY=" + offsetY +
-            ", maxWidth=" + maxWidth +
-            ", maxHeight=" + maxHeight +
-            '}';
-    }
 }

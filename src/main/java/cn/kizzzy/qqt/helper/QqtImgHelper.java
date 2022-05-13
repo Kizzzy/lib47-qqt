@@ -13,17 +13,22 @@ public class QqtImgHelper {
         = new QqtImgCreator();
     
     public static BufferedImage toImage(QqtImgItem item) {
-        return creator_1.Create(item, new BufferedImageCallback());
+        return toImage(item, false);
     }
     
-    public static BufferedImage toImageFix(QqtImgItem item) {
+    public static BufferedImage toImage(QqtImgItem item, boolean fixed) {
+        BufferedImage image = creator_1.Create(item, new BufferedImageCallback());
+        if (!fixed) {
+            return image;
+        }
+        
         int maxWidth = item.file.maxWidth;
         int maxHeight = item.file.maxHeight;
         int offsetX = item.offsetX;
         int offsetY = item.offsetY;
         
-        BufferedImage image = new BufferedImage(maxWidth, maxHeight, BufferedImage.TYPE_INT_ARGB);
-        image.getGraphics().drawImage(toImage(item), offsetX, offsetY, null);
-        return image;
+        BufferedImage fixedImage = new BufferedImage(maxWidth, maxHeight, BufferedImage.TYPE_INT_ARGB);
+        fixedImage.getGraphics().drawImage(image, offsetX, offsetY, null);
+        return fixedImage;
     }
 }

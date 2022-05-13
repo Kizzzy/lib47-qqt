@@ -44,17 +44,4 @@ public class QqtImgItem implements IStreamable {
         }
         return new SliceFullReader(getSource().OpenStream(), offset_alpha, size_alpha);
     }
-    
-    @Override
-    public String toString() {
-        return "QqtImgItem{" +
-            "reserved01=" + reserved01 +
-            ", offsetX=" + offsetX +
-            ", offsetY=" + offsetY +
-            ", reserved04=" + reserved04 +
-            ", width=" + width +
-            ", height=" + height +
-            ", reserved07=" + reserved07 +
-            '}';
-    }
 }
