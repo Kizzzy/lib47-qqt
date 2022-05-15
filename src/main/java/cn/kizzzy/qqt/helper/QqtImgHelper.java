@@ -31,4 +31,15 @@ public class QqtImgHelper {
         fixedImage.getGraphics().drawImage(image, offsetX, offsetY, null);
         return fixedImage;
     }
+    
+    public static BufferedImage toImageByCustom(QqtImgItem item, int x, int y, int width, int height) {
+        float offsetX = -item.file.maxWidth / 2f - item.file.offsetX + item.offsetX;
+        float offsetY = -item.file.maxHeight - item.file.offsetY + 20 + item.offsetY;
+        offsetX = width / 2f + offsetX + x;
+        offsetY = height + offsetY + y;
+        
+        BufferedImage fixedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        fixedImage.getGraphics().drawImage(toImage(item), (int) offsetX, (int) offsetY, null);
+        return fixedImage;
+    }
 }
