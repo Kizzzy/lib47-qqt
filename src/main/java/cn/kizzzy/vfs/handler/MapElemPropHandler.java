@@ -1,7 +1,7 @@
 package cn.kizzzy.vfs.handler;
 
-import cn.kizzzy.io.FullyReader;
-import cn.kizzzy.io.FullyWriter;
+import cn.kizzzy.io.IFullyReader;
+import cn.kizzzy.io.IFullyWriter;
 import cn.kizzzy.qqt.MapElemProp;
 import cn.kizzzy.vfs.IFileHandler;
 import cn.kizzzy.vfs.IPackage;
@@ -9,7 +9,7 @@ import cn.kizzzy.vfs.IPackage;
 public class MapElemPropHandler implements IFileHandler<MapElemProp> {
     
     @Override
-    public MapElemProp load(IPackage vfs, String path, FullyReader reader, long size) throws Exception {
+    public MapElemProp load(IPackage vfs, String path, IFullyReader reader, long size) throws Exception {
         MapElemProp prop = new MapElemProp();
         prop.version = reader.readIntEx();
         prop.elements = new MapElemProp.Element[reader.readIntEx()];
@@ -34,10 +34,10 @@ public class MapElemPropHandler implements IFileHandler<MapElemProp> {
     }
     
     @Override
-    public boolean save(IPackage vfs, String path, FullyWriter writer, MapElemProp prop) throws Exception {
-        writer.writeIntEx(prop.version);
-        writer.writeIntEx(prop.elements.length);
-        for (MapElemProp.Element element : prop.elements) {
+    public boolean save(IPackage vfs, String path, IFullyWriter writer, MapElemProp data) throws Exception {
+        writer.writeIntEx(data.version);
+        writer.writeIntEx(data.elements.length);
+        for (MapElemProp.Element element : data.elements) {
             writer.writeIntEx(element.id);
             writer.writeShort(element.width);
             writer.writeShort(element.height);

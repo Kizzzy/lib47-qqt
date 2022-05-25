@@ -2,8 +2,8 @@ package cn.kizzzy.vfs.handler;
 
 import cn.kizzzy.helper.LogHelper;
 import cn.kizzzy.image.sizer.QqtSizerHelper;
-import cn.kizzzy.io.FullyReader;
-import cn.kizzzy.io.FullyWriter;
+import cn.kizzzy.io.IFullyReader;
+import cn.kizzzy.io.IFullyWriter;
 import cn.kizzzy.io.SeekType;
 import cn.kizzzy.qqt.QqtImg;
 import cn.kizzzy.qqt.QqtImgItem;
@@ -13,7 +13,7 @@ import cn.kizzzy.vfs.IPackage;
 public class QqtImgHandler implements IFileHandler<QqtImg> {
     
     @Override
-    public QqtImg load(IPackage vfs, String path, FullyReader reader, long size) throws Exception {
+    public QqtImg load(IPackage vfs, String path, IFullyReader reader, long size) throws Exception {
         try {
             QqtImg img = new QqtImg();
             img.magic01 = reader.readIntEx();
@@ -70,20 +70,20 @@ public class QqtImgHandler implements IFileHandler<QqtImg> {
     }
     
     @Override
-    public boolean save(IPackage vfs, String path, FullyWriter writer, QqtImg img) throws Exception {
-        writer.writeIntEx(img.magic01);
-        writer.writeIntEx(img.magic02);
-        writer.writeShortEx(img.major);
-        writer.writeShortEx(img.minor);
-        writer.writeIntEx(img.headerSize);
-        writer.writeIntEx(img.count);
-        writer.writeIntEx(img.planes);
-        writer.writeIntEx(img.offsetX);
-        writer.writeIntEx(img.offsetY);
-        writer.writeIntEx(img.maxWidth);
-        writer.writeIntEx(img.maxHeight);
+    public boolean save(IPackage vfs, String path, IFullyWriter writer, QqtImg data) throws Exception {
+        writer.writeIntEx(data.magic01);
+        writer.writeIntEx(data.magic02);
+        writer.writeShortEx(data.major);
+        writer.writeShortEx(data.minor);
+        writer.writeIntEx(data.headerSize);
+        writer.writeIntEx(data.count);
+        writer.writeIntEx(data.planes);
+        writer.writeIntEx(data.offsetX);
+        writer.writeIntEx(data.offsetY);
+        writer.writeIntEx(data.maxWidth);
+        writer.writeIntEx(data.maxHeight);
         
-        for (QqtImgItem item : img.items) {
+        for (QqtImgItem item : data.items) {
             writer.writeIntEx(item.reserved01);
             writer.writeIntEx(item.offsetX);
             writer.writeIntEx(item.offsetY);
@@ -96,7 +96,7 @@ public class QqtImgHandler implements IFileHandler<QqtImg> {
             
             // todo write image data
             
-            if (img.major == 0) {
+            if (data.major == 0) {
                 // todo write image alpha data
             }
         }

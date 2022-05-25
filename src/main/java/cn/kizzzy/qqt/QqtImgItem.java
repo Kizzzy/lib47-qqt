@@ -1,6 +1,6 @@
 package cn.kizzzy.qqt;
 
-import cn.kizzzy.io.FullyReader;
+import cn.kizzzy.io.IFullyReader;
 import cn.kizzzy.io.SliceFullReader;
 import cn.kizzzy.vfs.IStreamable;
 
@@ -31,14 +31,14 @@ public class QqtImgItem implements IStreamable {
         this.file = (QqtImg) source;
     }
     
-    public FullyReader OpenStream() throws Exception {
+    public IFullyReader OpenStream() throws Exception {
         if (this.getSource() == null) {
             throw new NullPointerException("source is null");
         }
         return new SliceFullReader(getSource().OpenStream(), offset, size);
     }
     
-    public FullyReader OpenStream_Alpha() throws Exception {
+    public IFullyReader OpenStream_Alpha() throws Exception {
         if (this.getSource() == null) {
             throw new NullPointerException("source is null");
         }

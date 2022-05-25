@@ -1,7 +1,7 @@
 package cn.kizzzy.vfs.handler;
 
-import cn.kizzzy.io.FullyReader;
-import cn.kizzzy.io.FullyWriter;
+import cn.kizzzy.io.IFullyReader;
+import cn.kizzzy.io.IFullyWriter;
 import cn.kizzzy.qqt.QqtMap;
 import cn.kizzzy.vfs.IFileHandler;
 import cn.kizzzy.vfs.IPackage;
@@ -9,7 +9,7 @@ import cn.kizzzy.vfs.IPackage;
 public class QQtMapHandler implements IFileHandler<QqtMap> {
     
     @Override
-    public QqtMap load(IPackage vfs, String path, FullyReader reader, long size) throws Exception {
+    public QqtMap load(IPackage vfs, String path, IFullyReader reader, long size) throws Exception {
         QqtMap map = new QqtMap();
         map.version = reader.readIntEx();
         map.gameMode = reader.readIntEx();
@@ -62,33 +62,33 @@ public class QQtMapHandler implements IFileHandler<QqtMap> {
     }
     
     @Override
-    public boolean save(IPackage vfs, String path, FullyWriter writer, QqtMap map) throws Exception {
-        writer.writeIntEx(map.version);
-        writer.writeIntEx(map.gameMode);
-        writer.writeIntEx(map.maxPlayer);
-        if (map.version == 4) {
-            writer.writeIntEx(map.width);
-            writer.writeIntEx(map.height);
+    public boolean save(IPackage vfs, String path, IFullyWriter writer, QqtMap data) throws Exception {
+        writer.writeIntEx(data.version);
+        writer.writeIntEx(data.gameMode);
+        writer.writeIntEx(data.maxPlayer);
+        if (data.version == 4) {
+            writer.writeIntEx(data.width);
+            writer.writeIntEx(data.height);
         }
         
-        for (QqtMap.Layer layer : map.layers) {
-            for (int r = 0, row = map.height; r < row; ++r) {
-                for (int c = 0, col = map.width; c < col; ++c) {
+        for (QqtMap.Layer layer : data.layers) {
+            for (int r = 0, row = data.height; r < row; ++r) {
+                for (int c = 0, col = data.width; c < col; ++c) {
                     QqtMap.Element element = layer.elements[r][c];
                     writer.writeIntEx(element.value);
                 }
             }
         }
         
-        writer.writeIntEx(map.drops.length);
-        for (QqtMap.Drop drop : map.drops) {
+        writer.writeIntEx(data.drops.length);
+        for (QqtMap.Drop drop : data.drops) {
             writer.writeIntEx(drop.id);
             writer.writeIntEx(drop.min);
             writer.writeIntEx(drop.max);
             writer.writeFloatEx(drop.rate);
         }
         
-        for (QqtMap.Points points : map.points) {
+        for (QqtMap.Points points : data.points) {
             writer.writeIntEx(points.points.length);
             for (QqtMap.Point point : points.points) {
                 writer.writeShort(point.x);
