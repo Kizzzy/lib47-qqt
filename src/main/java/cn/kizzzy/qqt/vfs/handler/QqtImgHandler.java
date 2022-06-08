@@ -1,7 +1,7 @@
-package cn.kizzzy.vfs.handler;
+package cn.kizzzy.qqt.vfs.handler;
 
 import cn.kizzzy.helper.LogHelper;
-import cn.kizzzy.image.sizer.QqtSizerHelper;
+import cn.kizzzy.qqt.image.sizer.QqtSizerHelper;
 import cn.kizzzy.io.IFullyReader;
 import cn.kizzzy.io.IFullyWriter;
 import cn.kizzzy.io.SeekType;

@@ -1,8 +1,9 @@
-package cn.kizzzy.image.selector;
+package cn.kizzzy.qqt.image.selector;
 
 import cn.kizzzy.image.PixelConverter;
 import cn.kizzzy.image.converter.ARGB0565PixelConverter;
 import cn.kizzzy.image.converter.ARGB8888PixelConverter;
+import cn.kizzzy.image.selector.DefaultPixelConverterSelector;
 
 import java.util.HashMap;
 import java.util.Map;

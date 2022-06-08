@@ -1,6 +1,7 @@
-package cn.kizzzy.vfs.handler;
+package cn.kizzzy.qqt.vfs.handler;
 
 import cn.kizzzy.qqt.QqtAvatar;
+import cn.kizzzy.vfs.handler.TextFileHandler;
 
 public class QqtAvatarHandler extends TextFileHandler<QqtAvatar> {
     

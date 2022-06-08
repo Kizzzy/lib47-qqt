@@ -1,6 +1,8 @@
-package cn.kizzzy.image.sizer;
+package cn.kizzzy.qqt.image.sizer;
 
 import cn.kizzzy.image.Sizer;
+import cn.kizzzy.image.sizer.ARGB0565Sizer;
+import cn.kizzzy.image.sizer.ARGB8888Sizer;
 
 import java.util.HashMap;
 import java.util.Map;

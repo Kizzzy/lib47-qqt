@@ -2,7 +2,7 @@ package cn.kizzzy.qqt.helper;
 
 import cn.kizzzy.image.ImageCreator;
 import cn.kizzzy.image.creator.BufferedImageCallback;
-import cn.kizzzy.image.creator.QqtImgCreator;
+import cn.kizzzy.qqt.image.creator.QqtImgCreator;
 import cn.kizzzy.qqt.QqtImgItem;
 
 import java.awt.image.BufferedImage;

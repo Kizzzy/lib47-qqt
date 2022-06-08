@@ -1,8 +1,9 @@
-package cn.kizzzy.image.creator;
+package cn.kizzzy.qqt.image.creator;
 
 import cn.kizzzy.image.PixelConverter;
 import cn.kizzzy.image.PixelConverterSelector;
-import cn.kizzzy.image.selector.QqtPixelConverterSelector;
+import cn.kizzzy.image.creator.ImageCreatorAdapter;
+import cn.kizzzy.qqt.image.selector.QqtPixelConverterSelector;
 import cn.kizzzy.io.IFullyReader;
 import cn.kizzzy.qqt.QqtImgItem;
 

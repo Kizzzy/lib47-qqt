@@ -1,14 +1,15 @@
-package cn.kizzzy.vfs.pack;
+package cn.kizzzy.qqt.vfs.pack;
 
 import cn.kizzzy.qqt.MapElemProp;
 import cn.kizzzy.qqt.QqtAvatar;
 import cn.kizzzy.qqt.QqtImg;
 import cn.kizzzy.qqt.QqtMap;
+import cn.kizzzy.qqt.vfs.handler.MapElemPropHandler;
+import cn.kizzzy.qqt.vfs.handler.QQtMapHandler;
+import cn.kizzzy.qqt.vfs.handler.QqtAvatarHandler;
+import cn.kizzzy.qqt.vfs.handler.QqtImgHandler;
+import cn.kizzzy.tencent.vfs.pack.IdxPackage;
 import cn.kizzzy.vfs.ITree;
-import cn.kizzzy.vfs.handler.MapElemPropHandler;
-import cn.kizzzy.vfs.handler.QQtMapHandler;
-import cn.kizzzy.vfs.handler.QqtAvatarHandler;
-import cn.kizzzy.vfs.handler.QqtImgHandler;
 
 public class QqtPackage extends IdxPackage {
     
