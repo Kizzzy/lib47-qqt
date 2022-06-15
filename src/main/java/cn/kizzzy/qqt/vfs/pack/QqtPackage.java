@@ -21,10 +21,10 @@ public class QqtPackage extends IdxPackage {
     protected void initDefaultHandler() {
         super.initDefaultHandler();
         
-        handlerKvs.put(QqtImg.class, new QqtImgHandler());
-        handlerKvs.put(QqtMap.class, new QQtMapHandler());
-        handlerKvs.put(QqtAvatar.class, new QqtAvatarHandler());
-        handlerKvs.put(MapElemProp.class, new MapElemPropHandler());
+        addHandler(QqtImg.class, new QqtImgHandler());
+        addHandler(QqtMap.class, new QQtMapHandler());
+        addHandler(QqtAvatar.class, new QqtAvatarHandler());
+        addHandler(MapElemProp.class, new MapElemPropHandler());
     }
     
     @Override
