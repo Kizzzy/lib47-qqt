@@ -1,8 +1,8 @@
 package cn.kizzzy.qqt;
 
-import cn.kizzzy.vfs.IStreamable;
+import cn.kizzzy.vfs.IInputStreamGetter;
 
-public class QqtImg implements IStreamable {
+public class QqtImg implements IInputStreamGetter {
     public int magic01;
     public int magic02;
     public short major;
@@ -16,13 +16,13 @@ public class QqtImg implements IStreamable {
     public int maxHeight;
     public QqtImgItem[] items;
     
-    private IStreamable source;
+    private IInputStreamGetter source;
     
-    public IStreamable getSource() {
+    public IInputStreamGetter getSource() {
         return source;
     }
     
-    public void setSource(IStreamable source) {
+    public void setSource(IInputStreamGetter source) {
         this.source = source;
     }
 }

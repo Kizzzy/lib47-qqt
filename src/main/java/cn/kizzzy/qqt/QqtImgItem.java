@@ -2,9 +2,9 @@ package cn.kizzzy.qqt;
 
 import cn.kizzzy.io.IFullyReader;
 import cn.kizzzy.io.SliceFullReader;
-import cn.kizzzy.vfs.IStreamable;
+import cn.kizzzy.vfs.IInputStreamGetter;
 
-public class QqtImgItem implements IStreamable {
+public class QqtImgItem implements IInputStreamGetter {
     public int reserved01;
     public int offsetX;
     public int offsetY;
@@ -23,25 +23,25 @@ public class QqtImgItem implements IStreamable {
     public long offset_alpha;
     public int size_alpha;
     
-    public IStreamable getSource() {
+    public IInputStreamGetter getSource() {
         return file;
     }
     
-    public void setSource(IStreamable source) {
+    public void setSource(IInputStreamGetter source) {
         this.file = (QqtImg) source;
     }
     
-    public IFullyReader OpenStream() throws Exception {
+    public IFullyReader getInput() throws Exception {
         if (this.getSource() == null) {
             throw new NullPointerException("source is null");
         }
-        return new SliceFullReader(getSource().OpenStream(), offset, size);
+        return new SliceFullReader(getSource().getInput(), offset, size);
     }
     
     public IFullyReader OpenStream_Alpha() throws Exception {
         if (this.getSource() == null) {
             throw new NullPointerException("source is null");
         }
-        return new SliceFullReader(getSource().OpenStream(), offset_alpha, size_alpha);
+        return new SliceFullReader(getSource().getInput(), offset_alpha, size_alpha);
     }
 }

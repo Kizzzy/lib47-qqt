@@ -14,7 +14,7 @@ import cn.kizzzy.vfs.ITree;
 public class QqtPackage extends IdxPackage {
     
     public QqtPackage(String root, ITree tree) {
-        super(root, tree);
+        super(root, tree, "idx");
     }
     
     @Override
@@ -25,10 +25,5 @@ public class QqtPackage extends IdxPackage {
         addHandler(QqtMap.class, new QQtMapHandler());
         addHandler(QqtAvatar.class, new QqtAvatarHandler());
         addHandler(MapElemProp.class, new MapElemPropHandler());
-    }
-    
-    @Override
-    protected String dealWithPkgName(String pkg) {
-        return pkg.replace("idx", "pkg");
     }
 }
