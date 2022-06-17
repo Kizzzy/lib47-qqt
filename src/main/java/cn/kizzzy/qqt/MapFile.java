@@ -1,6 +1,6 @@
 package cn.kizzzy.qqt;
 
-public class QqtMap {
+public class MapFile {
     
     /**
      * 版本

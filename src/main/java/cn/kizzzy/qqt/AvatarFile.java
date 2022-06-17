@@ -3,7 +3,7 @@ package cn.kizzzy.qqt;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QqtAvatar {
+public class AvatarFile {
     
     public Map<String, Avatar> avatarKvs
         = new HashMap<>();

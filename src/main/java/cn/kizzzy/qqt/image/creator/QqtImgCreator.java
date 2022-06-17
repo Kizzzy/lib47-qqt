@@ -4,12 +4,12 @@ import cn.kizzzy.image.PixelConverter;
 import cn.kizzzy.image.PixelConverterSelector;
 import cn.kizzzy.image.creator.ImageCreatorAdapter;
 import cn.kizzzy.io.IFullyReader;
-import cn.kizzzy.qqt.QqtImgItem;
+import cn.kizzzy.qqt.ImgFile;
 import cn.kizzzy.qqt.image.selector.QqtPixelConverterSelector;
 
 import java.awt.image.BufferedImage;
 
-public class QqtImgCreator extends ImageCreatorAdapter<QqtImgItem, BufferedImage> {
+public class QqtImgCreator extends ImageCreatorAdapter<ImgFile.Frame, BufferedImage> {
     
     protected static final PixelConverterSelector DEFAULT_SELECTOR
         = new QqtPixelConverterSelector();
@@ -19,14 +19,14 @@ public class QqtImgCreator extends ImageCreatorAdapter<QqtImgItem, BufferedImage
     }
     
     @Override
-    protected BufferedImage CreateImpl(QqtImgItem item, Callback<BufferedImage> callback) throws Exception {
-        PixelConverter converter = selector.select(item.file.major);
-        if (converter != null && item.valid) {
-            try (IFullyReader reader = item.getInput()) {
-                int[] buffer = readPixel(reader, converter, item.width, item.height);
-                if (item.file.major == 0) {
-                    try (IFullyReader alpha_reader = item.OpenStream_Alpha()) {
-                        byte[] alphas = new byte[item.size_alpha];
+    protected BufferedImage CreateImpl(ImgFile.Frame frame, Callback<BufferedImage> callback) throws Exception {
+        PixelConverter converter = selector.select(frame.file.major);
+        if (converter != null && frame.valid) {
+            try (IFullyReader reader = frame.getInput()) {
+                int[] buffer = readPixel(reader, converter, frame.width, frame.height);
+                if (frame.file.major == 0) {
+                    try (IFullyReader alpha_reader = frame.OpenStream_Alpha()) {
+                        byte[] alphas = new byte[frame.size_alpha];
                         alpha_reader.read(alphas);
                         for (int i = 0; i < buffer.length; ++i) {
                             int alpha = (int) (alphas[i] / 32f * 255);
@@ -34,7 +34,7 @@ public class QqtImgCreator extends ImageCreatorAdapter<QqtImgItem, BufferedImage
                         }
                     }
                 }
-                return callback.invoke(buffer, item.width, item.height);
+                return callback.invoke(buffer, frame.width, frame.height);
             }
         }
         return null;
