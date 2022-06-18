@@ -22,11 +22,11 @@ public class QqtImgCreator extends ImageCreatorAdapter<ImgFile.Frame, BufferedIm
     protected BufferedImage CreateImpl(ImgFile.Frame frame, Callback<BufferedImage> callback) throws Exception {
         PixelConverter converter = selector.select(frame.file.major);
         if (converter != null && frame.valid) {
-            try (IFullyReader reader = frame.getInput()) {
+            try (IFullyReader reader = frame.pixels.getInput()) {
                 int[] buffer = readPixel(reader, converter, frame.width, frame.height);
                 if (frame.file.major == 0) {
-                    try (IFullyReader alpha_reader = frame.OpenStream_Alpha()) {
-                        byte[] alphas = new byte[frame.size_alpha];
+                    try (IFullyReader alpha_reader = frame.alphas.getInput()) {
+                        byte[] alphas = new byte[(int) alpha_reader.length()];
                         alpha_reader.read(alphas);
                         for (int i = 0; i < buffer.length; ++i) {
                             int alpha = (int) (alphas[i] / 32f * 255);

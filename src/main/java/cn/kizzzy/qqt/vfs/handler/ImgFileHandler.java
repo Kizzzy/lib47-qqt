@@ -7,6 +7,7 @@ import cn.kizzzy.qqt.ImgFile;
 import cn.kizzzy.qqt.image.sizer.QqtSizerHelper;
 import cn.kizzzy.vfs.IFileHandler;
 import cn.kizzzy.vfs.IPackage;
+import cn.kizzzy.vfs.stream.SliceInputStreamGetter;
 
 public class ImgFileHandler implements IFileHandler<ImgFile> {
     
@@ -37,19 +38,21 @@ public class ImgFileHandler implements IFileHandler<ImgFile> {
                 frame.reserved07 = reader.readIntEx();
             }
             
+            long _size = QqtSizerHelper.calc(imgFile.major, frame.width, frame.height);
+            
             frame.index = i;
             frame.file = imgFile;
-            frame.offset = reader.position();
-            frame.size = QqtSizerHelper.calc(imgFile.major, frame.width, frame.height);
+            frame.pixels = new SliceInputStreamGetter(imgFile, reader.position(), _size);
             frame.valid = 0 < frame.width && frame.width < 4096 && 0 < frame.height && frame.height < 4096;
             
-            reader.seek(frame.size, SeekType.CURRENT);
+            reader.seek(_size, SeekType.CURRENT);
             
             if (imgFile.major == 0) {
-                frame.offset_alpha = reader.position();
-                frame.size_alpha = (long) frame.width * frame.height;
+                _size = (long) frame.width * frame.height;
                 
-                reader.seek(frame.size_alpha, SeekType.CURRENT);
+                frame.alphas = new SliceInputStreamGetter(imgFile, reader.position(), _size);
+                
+                reader.seek(_size, SeekType.CURRENT);
             }
             
             imgFile.frames[i] = frame;
