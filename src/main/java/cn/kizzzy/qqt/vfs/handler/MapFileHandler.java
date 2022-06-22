@@ -10,12 +10,14 @@ public class MapFileHandler implements IFileHandler<MapFile> {
     
     @Override
     public MapFile load(IPackage vfs, String path, IFullyReader reader, long size) throws Exception {
+        reader.setLittleEndian(true);
+        
         MapFile mapFile = new MapFile();
-        mapFile.version = reader.readIntEx();
-        mapFile.gameMode = reader.readIntEx();
-        mapFile.maxPlayer = reader.readIntEx();
-        mapFile.width = mapFile.version == 4 ? reader.readIntEx() : 15;
-        mapFile.height = mapFile.version == 4 ? reader.readIntEx() : 13;
+        mapFile.version = reader.readInt();
+        mapFile.gameMode = reader.readInt();
+        mapFile.maxPlayer = reader.readInt();
+        mapFile.width = mapFile.version == 4 ? reader.readInt() : 15;
+        mapFile.height = mapFile.version == 4 ? reader.readInt() : 13;
         
         mapFile.layers = new MapFile.Layer[3];
         for (int i = 0, n = mapFile.layers.length; i < n; ++i) {
@@ -24,7 +26,7 @@ public class MapFileHandler implements IFileHandler<MapFile> {
             for (int r = 0, row = mapFile.height; r < row; ++r) {
                 for (int c = 0, col = mapFile.width; c < col; ++c) {
                     MapFile.Element element = new MapFile.Element();
-                    element.value = reader.readIntEx();
+                    element.value = reader.readInt();
                     
                     layer.elements[r][c] = element;
                 }
@@ -32,13 +34,13 @@ public class MapFileHandler implements IFileHandler<MapFile> {
             mapFile.layers[i] = layer;
         }
         
-        mapFile.drops = new MapFile.Drop[reader.readIntEx()];
+        mapFile.drops = new MapFile.Drop[reader.readInt()];
         for (int i = 0, n = mapFile.drops.length; i < n; ++i) {
             MapFile.Drop drop = new MapFile.Drop();
-            drop.id = reader.readIntEx();
-            drop.min = reader.readIntEx();
-            drop.max = reader.readIntEx();
-            drop.rate = reader.readFloatEx();
+            drop.id = reader.readInt();
+            drop.min = reader.readInt();
+            drop.max = reader.readInt();
+            drop.rate = reader.readFloat();
             
             mapFile.drops[i] = drop;
         }
@@ -46,11 +48,11 @@ public class MapFileHandler implements IFileHandler<MapFile> {
         mapFile.points = new MapFile.Points[4];
         for (int i = 0; i < 4; ++i) {
             MapFile.Points points = new MapFile.Points();
-            points.points = new MapFile.Point[reader.readIntEx()];
+            points.points = new MapFile.Point[reader.readInt()];
             for (int j = 0, n = points.points.length; j < n; ++j) {
                 MapFile.Point point = new MapFile.Point();
-                point.y = reader.readShortEx();
-                point.x = reader.readShortEx();
+                point.y = reader.readShort();
+                point.x = reader.readShort();
                 
                 points.points[j] = point;
             }
@@ -63,33 +65,35 @@ public class MapFileHandler implements IFileHandler<MapFile> {
     
     @Override
     public boolean save(IPackage vfs, String path, IFullyWriter writer, MapFile data) throws Exception {
-        writer.writeIntEx(data.version);
-        writer.writeIntEx(data.gameMode);
-        writer.writeIntEx(data.maxPlayer);
+        writer.setLittleEndian(true);
+        
+        writer.writeInt(data.version);
+        writer.writeInt(data.gameMode);
+        writer.writeInt(data.maxPlayer);
         if (data.version == 4) {
-            writer.writeIntEx(data.width);
-            writer.writeIntEx(data.height);
+            writer.writeInt(data.width);
+            writer.writeInt(data.height);
         }
         
         for (MapFile.Layer layer : data.layers) {
             for (int r = 0, row = data.height; r < row; ++r) {
                 for (int c = 0, col = data.width; c < col; ++c) {
                     MapFile.Element element = layer.elements[r][c];
-                    writer.writeIntEx(element.value);
+                    writer.writeInt(element.value);
                 }
             }
         }
         
-        writer.writeIntEx(data.drops.length);
+        writer.writeInt(data.drops.length);
         for (MapFile.Drop drop : data.drops) {
-            writer.writeIntEx(drop.id);
-            writer.writeIntEx(drop.min);
-            writer.writeIntEx(drop.max);
-            writer.writeFloatEx(drop.rate);
+            writer.writeInt(drop.id);
+            writer.writeInt(drop.min);
+            writer.writeInt(drop.max);
+            writer.writeFloat(drop.rate);
         }
         
         for (MapFile.Points points : data.points) {
-            writer.writeIntEx(points.points.length);
+            writer.writeInt(points.points.length);
             for (MapFile.Point point : points.points) {
                 writer.writeShort(point.x);
                 writer.writeShort(point.y);

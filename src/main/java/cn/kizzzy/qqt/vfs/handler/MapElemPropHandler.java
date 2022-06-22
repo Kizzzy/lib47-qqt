@@ -10,22 +10,24 @@ public class MapElemPropHandler implements IFileHandler<MapElemProp> {
     
     @Override
     public MapElemProp load(IPackage vfs, String path, IFullyReader reader, long size) throws Exception {
+        reader.setLittleEndian(true);
+        
         MapElemProp prop = new MapElemProp();
-        prop.version = reader.readIntEx();
-        prop.elements = new MapElemProp.Element[reader.readIntEx()];
+        prop.version = reader.readInt();
+        prop.elements = new MapElemProp.Element[reader.readInt()];
         for (int i = 0, m = prop.elements.length; i < m; ++i) {
             MapElemProp.Element element = new MapElemProp.Element();
-            element.id = reader.readIntEx();
-            element.width = reader.readShortEx();
-            element.height = reader.readShortEx();
-            element.x = reader.readShortEx();
-            element.y = reader.readShortEx();
-            element.life = reader.readIntEx();
-            element.level = reader.readIntEx();
-            element.special = reader.readIntEx();
+            element.id = reader.readInt();
+            element.width = reader.readShort();
+            element.height = reader.readShort();
+            element.x = reader.readShort();
+            element.y = reader.readShort();
+            element.life = reader.readInt();
+            element.level = reader.readInt();
+            element.special = reader.readInt();
             element.attrs = new int[element.width * element.height];
             for (int j = 0, n = element.attrs.length; j < n; ++j) {
-                element.attrs[j] = reader.readIntEx();
+                element.attrs[j] = reader.readInt();
             }
             
             prop.elements[i] = element;
@@ -35,19 +37,21 @@ public class MapElemPropHandler implements IFileHandler<MapElemProp> {
     
     @Override
     public boolean save(IPackage vfs, String path, IFullyWriter writer, MapElemProp data) throws Exception {
-        writer.writeIntEx(data.version);
-        writer.writeIntEx(data.elements.length);
+        writer.setLittleEndian(true);
+        
+        writer.writeInt(data.version);
+        writer.writeInt(data.elements.length);
         for (MapElemProp.Element element : data.elements) {
-            writer.writeIntEx(element.id);
+            writer.writeInt(element.id);
             writer.writeShort(element.width);
             writer.writeShort(element.height);
             writer.writeShort(element.x);
             writer.writeShort(element.y);
-            writer.writeIntEx(element.life);
-            writer.writeIntEx(element.level);
-            writer.writeIntEx(element.special);
+            writer.writeInt(element.life);
+            writer.writeInt(element.level);
+            writer.writeInt(element.special);
             for (int attr : element.attrs) {
-                writer.writeIntEx(attr);
+                writer.writeInt(attr);
             }
         }
         

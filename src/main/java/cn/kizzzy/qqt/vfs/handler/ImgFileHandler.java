@@ -13,29 +13,31 @@ public class ImgFileHandler implements IFileHandler<ImgFile> {
     
     @Override
     public ImgFile load(IPackage vfs, String path, IFullyReader reader, long size) throws Exception {
+        reader.setLittleEndian(true);
+        
         ImgFile imgFile = new ImgFile();
-        imgFile.magic01 = reader.readIntEx();
-        imgFile.magic02 = reader.readIntEx();
-        imgFile.major = reader.readShortEx();
-        imgFile.minor = reader.readShortEx();
-        imgFile.headerSize = reader.readIntEx();
-        imgFile.count = reader.readIntEx();
-        imgFile.planes = reader.readIntEx();
-        imgFile.offsetX = reader.readIntEx();
-        imgFile.offsetY = reader.readIntEx();
-        imgFile.maxWidth = reader.readIntEx();
-        imgFile.maxHeight = reader.readIntEx();
+        imgFile.magic01 = reader.readInt();
+        imgFile.magic02 = reader.readInt();
+        imgFile.major = reader.readShort();
+        imgFile.minor = reader.readShort();
+        imgFile.headerSize = reader.readInt();
+        imgFile.count = reader.readInt();
+        imgFile.planes = reader.readInt();
+        imgFile.offsetX = reader.readInt();
+        imgFile.offsetY = reader.readInt();
+        imgFile.maxWidth = reader.readInt();
+        imgFile.maxHeight = reader.readInt();
         imgFile.frames = new ImgFile.Frame[imgFile.count];
         for (int i = 0; i < imgFile.frames.length; ++i) {
             ImgFile.Frame frame = new ImgFile.Frame();
-            frame.reserved01 = reader.readIntEx();
-            frame.offsetX = reader.readIntEx();
-            frame.offsetY = reader.readIntEx();
-            frame.reserved04 = reader.readIntEx();
+            frame.reserved01 = reader.readInt();
+            frame.offsetX = reader.readInt();
+            frame.offsetY = reader.readInt();
+            frame.reserved04 = reader.readInt();
             if (frame.reserved04 != 0) {
-                frame.width = reader.readIntEx();
-                frame.height = reader.readIntEx();
-                frame.reserved07 = reader.readIntEx();
+                frame.width = reader.readInt();
+                frame.height = reader.readInt();
+                frame.reserved07 = reader.readInt();
             }
             
             long _size = QqtSizerHelper.calc(imgFile.major, frame.width, frame.height);
@@ -63,27 +65,29 @@ public class ImgFileHandler implements IFileHandler<ImgFile> {
     
     @Override
     public boolean save(IPackage vfs, String path, IFullyWriter writer, ImgFile data) throws Exception {
-        writer.writeIntEx(data.magic01);
-        writer.writeIntEx(data.magic02);
-        writer.writeShortEx(data.major);
-        writer.writeShortEx(data.minor);
-        writer.writeIntEx(data.headerSize);
-        writer.writeIntEx(data.count);
-        writer.writeIntEx(data.planes);
-        writer.writeIntEx(data.offsetX);
-        writer.writeIntEx(data.offsetY);
-        writer.writeIntEx(data.maxWidth);
-        writer.writeIntEx(data.maxHeight);
+        writer.setLittleEndian(true);
+        
+        writer.writeInt(data.magic01);
+        writer.writeInt(data.magic02);
+        writer.writeShort(data.major);
+        writer.writeShort(data.minor);
+        writer.writeInt(data.headerSize);
+        writer.writeInt(data.count);
+        writer.writeInt(data.planes);
+        writer.writeInt(data.offsetX);
+        writer.writeInt(data.offsetY);
+        writer.writeInt(data.maxWidth);
+        writer.writeInt(data.maxHeight);
         
         for (ImgFile.Frame item : data.frames) {
-            writer.writeIntEx(item.reserved01);
-            writer.writeIntEx(item.offsetX);
-            writer.writeIntEx(item.offsetY);
-            writer.writeIntEx(item.reserved04);
+            writer.writeInt(item.reserved01);
+            writer.writeInt(item.offsetX);
+            writer.writeInt(item.offsetY);
+            writer.writeInt(item.reserved04);
             if (item.reserved04 != 0) {
-                writer.writeIntEx(item.width);
-                writer.writeIntEx(item.height);
-                writer.writeIntEx(item.reserved07);
+                writer.writeInt(item.width);
+                writer.writeInt(item.height);
+                writer.writeInt(item.reserved07);
             }
             
             // todo write image data
