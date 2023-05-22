@@ -6,41 +6,41 @@
 
     <groupId>cn.kizzzy</groupId>
     <artifactId>lib47-qqt</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>${lib47-version}</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <lib47-version>1.0-SNAPSHOT</lib47-version>
+        <maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
     </properties>
 
     <dependencies>
 
         <dependency>
             <groupId>cn.kizzzy</groupId>
-            <artifactId>lib47-tencent</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>lib47-image</artifactId>
+            <version>${lib47-version}</version>
         </dependency>
 
         <dependency>
             <groupId>cn.kizzzy</groupId>
-            <artifactId>lib47-image</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>lib47-tencent</artifactId>
+            <version>${lib47-version}</version>
         </dependency>
 
     </dependencies>
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>${maven-compiler-plugin-version}</version>
             </plugin>
-
         </plugins>
     </build>
 
