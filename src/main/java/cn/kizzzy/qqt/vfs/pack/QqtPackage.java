@@ -16,7 +16,7 @@ import cn.kizzzy.vfs.stream.FileStreamGetterFactory;
 public class QqtPackage extends IdxPackage {
     
     public QqtPackage(String root, ITree tree) {
-        this(tree, new FileStreamGetterFactory(root, tree));
+        this(tree, new FileStreamGetterFactory(root));
     }
     
     public QqtPackage(ITree tree, IStreamGetterFactory factory) {
