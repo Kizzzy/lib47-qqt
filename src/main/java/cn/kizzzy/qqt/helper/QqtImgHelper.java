@@ -24,8 +24,8 @@ public class QqtImgHelper {
         
         int maxWidth = frame.file.maxWidth;
         int maxHeight = frame.file.maxHeight;
-        int offsetX = frame.offsetX;
-        int offsetY = frame.offsetY;
+        int offsetX = frame.file.offsetX + frame.offsetX;
+        int offsetY = -frame.file.offsetY + frame.offsetY + 20;
         
         BufferedImage fixedImage = new BufferedImage(maxWidth, maxHeight, BufferedImage.TYPE_INT_ARGB);
         fixedImage.getGraphics().drawImage(image, offsetX, offsetY, null);
@@ -34,7 +34,7 @@ public class QqtImgHelper {
     
     public static BufferedImage toImageByCustom(ImgFile.Frame frame, int x, int y, int width, int height) {
         float offsetX = -frame.file.maxWidth / 2f - frame.file.offsetX + frame.offsetX;
-        float offsetY = -frame.file.maxHeight - frame.file.offsetY + 20 + frame.offsetY;
+        float offsetY = -frame.file.maxHeight - frame.file.offsetY + frame.offsetY + 20;
         offsetX = width / 2f + offsetX + x;
         offsetY = height + offsetY + y;
         
