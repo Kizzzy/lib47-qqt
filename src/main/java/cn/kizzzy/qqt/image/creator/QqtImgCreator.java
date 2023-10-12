@@ -37,6 +37,6 @@ public class QqtImgCreator extends ImageCreatorAdapter<ImgFile.Frame, BufferedIm
                 return callback.invoke(buffer, frame.width, frame.height);
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unknown Type: " + frame.file.major);
     }
 }

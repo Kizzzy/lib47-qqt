@@ -12,11 +12,11 @@ public class QqtImgHelper {
     private static final ImageCreator<ImgFile.Frame, BufferedImage> creator_1
         = new QqtImgCreator();
     
-    public static BufferedImage toImage(ImgFile.Frame frame) {
+    public static BufferedImage toImage(ImgFile.Frame frame) throws Exception {
         return toImage(frame, false);
     }
     
-    public static BufferedImage toImage(ImgFile.Frame frame, boolean fixed) {
+    public static BufferedImage toImage(ImgFile.Frame frame, boolean fixed) throws Exception {
         BufferedImage image = creator_1.Create(frame, new BufferedImageCallback());
         if (!fixed) {
             return image;
@@ -32,7 +32,7 @@ public class QqtImgHelper {
         return fixedImage;
     }
     
-    public static BufferedImage toImageByCustom(ImgFile.Frame frame, int x, int y, int width, int height) {
+    public static BufferedImage toImageByCustom(ImgFile.Frame frame, int x, int y, int width, int height) throws Exception {
         float offsetX = -frame.file.maxWidth / 2f - frame.file.offsetX + frame.offsetX;
         float offsetY = -frame.file.maxHeight - frame.file.offsetY + frame.offsetY + 20;
         offsetX = width / 2f + offsetX + x;
