@@ -7,9 +7,7 @@ import cn.kizzzy.io.IFullyReader;
 import cn.kizzzy.qqt.ImgFile;
 import cn.kizzzy.qqt.image.selector.QqtPixelConverterSelector;
 
-import java.awt.image.BufferedImage;
-
-public class QqtImgCreator extends ImageCreatorAdapter<ImgFile.Frame, BufferedImage> {
+public class QqtImgCreator extends ImageCreatorAdapter<ImgFile.Frame> {
     
     protected static final PixelConverterSelector DEFAULT_SELECTOR
         = new QqtPixelConverterSelector();
@@ -19,7 +17,7 @@ public class QqtImgCreator extends ImageCreatorAdapter<ImgFile.Frame, BufferedIm
     }
     
     @Override
-    protected BufferedImage CreateImpl(ImgFile.Frame frame, Callback<BufferedImage> callback) throws Exception {
+    protected <R> R CreateImpl(ImgFile.Frame frame, Callback<R> callback) throws Exception {
         PixelConverter converter = selector.select(frame.file.major);
         if (converter != null && frame.valid) {
             try (IFullyReader reader = frame.pixels.getInput()) {

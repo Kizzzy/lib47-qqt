@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 public class QqtImgHelper {
     
-    private static final ImageCreator<ImgFile.Frame, BufferedImage> creator_1
+    private static final ImageCreator<ImgFile.Frame> creator_1
         = new QqtImgCreator();
     
     public static BufferedImage toImage(ImgFile.Frame frame) throws Exception {
